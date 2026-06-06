@@ -17,9 +17,9 @@ h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}
 .page.active{display:block}
 
 /* NAV */
-.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:68px;background:rgba(7,24,41,0.97);border-bottom:1px solid rgba(14,138,130,0.2);backdrop-filter:blur(12px)}
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:76px;background:rgba(7,24,41,0.97);border-bottom:1px solid rgba(14,138,130,0.2);backdrop-filter:blur(12px)}
 .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
-.nav-logo-img{width:36px;height:36px;border-radius:50%;background:white;padding:2px;object-fit:contain}
+.nav-logo-img{width:58px;height:58px;border-radius:50%;background:white;padding:4px;object-fit:contain;flex-shrink:0}
 .nav-logo-name{font-family:'DM Serif Display',serif;font-size:20px;color:white;letter-spacing:0.3px}
 .nav-links{display:flex;gap:6px;align-items:center}
 .nav-link{color:rgba(255,255,255,0.65);font-size:13px;cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;padding:7px 14px;border-radius:6px;transition:all 0.2s}
@@ -206,7 +206,7 @@ h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}
 /* FOOTER */
 .footer{background:var(--dark);padding:32px 5%;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(14,138,130,0.1)}
 .footer-logo{display:flex;align-items:center;gap:10px}
-.footer-logo-img{width:30px;height:30px;border-radius:50%;background:white;padding:2px;object-fit:contain}
+.footer-logo-img{width:52px;height:52px;border-radius:50%;background:white;padding:4px;object-fit:contain;flex-shrink:0}
 .footer-logo-name{font-family:'DM Serif Display',serif;font-size:18px;color:white}
 .footer-tagline{color:rgba(255,255,255,0.22);font-size:11px;font-style:italic;margin-top:3px}
 .footer-right{color:rgba(255,255,255,0.22);font-size:11px;text-align:right}
@@ -278,7 +278,7 @@ function HomePage({ setPage }) {
           <div>
             <div className="hero-badge"><div className="badge-dot"/>MIT CDO Program · Pilot Launching 2025</div>
             <div style={{display:'flex',alignItems:'flex-start',gap:16,marginBottom:18}}>
-              <img src={LOGO} style={{height:100,width:'auto',maxWidth:220,background:'white',borderRadius:12,padding:'8px 16px',objectFit:'contain',flexShrink:0,marginTop:4}}/>
+              <img src={LOGO} style={{width:90,height:90,borderRadius:'50%',background:'white',padding:5,objectFit:'contain',flexShrink:0,marginTop:4}}/>
               <h1 className="hero-title" style={{marginBottom:0}}>Wellbeing that<br/><span className="accent">works before</span><br/>it breaks down</h1>
             </div>
             <p className="hero-sub">CareSphere is an agentic AI platform that detects burnout risk in calendar patterns weeks before employees feel it — and delivers private, actionable nudges in the flow of work.</p>
@@ -372,7 +372,7 @@ function EmployeesPage({ setPage }) {
         <div className="page-hero-inner">
           <div className="hero-badge"><div className="badge-dot"/>Built for you, not for your employer</div>
           <div style={{display:'flex',alignItems:'flex-start',gap:16,marginBottom:16}}>
-            <img src={LOGO} style={{height:90,width:'auto',maxWidth:200,background:'white',borderRadius:11,padding:'7px 14px',objectFit:'contain',flexShrink:0,marginTop:4}}/>
+            <img src={LOGO} style={{width:84,height:84,borderRadius:'50%',background:'white',padding:5,objectFit:'contain',flexShrink:0,marginTop:4}}/>
             <h1 className="page-hero-title" style={{marginBottom:0}}>Your wellbeing,<br/>proactively protected</h1>
           </div>
           <p className="page-hero-sub">CareSphere detects overload in your calendar weeks before you feel burnout — and sends private nudges only to you, through Teams or Slack. Your manager never sees a thing.</p>
@@ -474,7 +474,7 @@ function HRPage({ setPage }) {
         <div className="page-hero-inner">
           <div className="hero-badge"><div className="badge-dot"/>Built for HR leaders and C-suite</div>
           <div style={{display:'flex',alignItems:'flex-start',gap:16,marginBottom:16}}>
-            <img src={LOGO} style={{height:90,width:'auto',maxWidth:200,background:'white',borderRadius:11,padding:'7px 14px',objectFit:'contain',flexShrink:0,marginTop:4}}/>
+            <img src={LOGO} style={{width:84,height:84,borderRadius:'50%',background:'white',padding:5,objectFit:'contain',flexShrink:0,marginTop:4}}/>
             <h1 className="page-hero-title" style={{marginBottom:0}}>See burnout risk<br/>before it becomes turnover</h1>
           </div>
           <p className="page-hero-sub">CareSphere gives you an anonymized, aggregate view of team overload risk — weeks before it shows up in performance reviews, absenteeism, or resignation letters.</p>
@@ -584,7 +584,7 @@ function ProvidersPage({ setPage }) {
         <div className="page-hero-inner">
           <div className="hero-badge"><div className="badge-dot"/>Free to join · No competing products</div>
           <div style={{display:'flex',alignItems:'flex-start',gap:16,marginBottom:16}}>
-            <img src={LOGO} style={{height:90,width:'auto',maxWidth:200,background:'white',borderRadius:11,padding:'7px 14px',objectFit:'contain',flexShrink:0,marginTop:4}}/>
+            <img src={LOGO} style={{width:84,height:84,borderRadius:'50%',background:'white',padding:5,objectFit:'contain',flexShrink:0,marginTop:4}}/>
             <h1 className="page-hero-title" style={{marginBottom:0}}>Reach employees<br/>at their moment of need</h1>
           </div>
           <p className="page-hero-sub">Join the CareSphere marketplace for free. Your services are surfaced to employees at the exact moment CareSphere detects they need them — backed by behavioral data, not guesswork.</p>
@@ -686,7 +686,7 @@ function PilotPage() {
         <div className="page-hero-inner">
           <div className="hero-badge"><div className="badge-dot"/>Applications open · 2025</div>
           <div style={{display:'flex',alignItems:'center',gap:16,marginBottom:16}}>
-            <img src={LOGO} style={{height:90,width:'auto',maxWidth:200,background:'white',borderRadius:11,padding:'7px 14px',objectFit:'contain',flexShrink:0}}/>
+            <img src={LOGO} style={{width:84,height:84,borderRadius:'50%',background:'white',padding:5,objectFit:'contain',flexShrink:0}}/>
             <h1 className="page-hero-title" style={{marginBottom:0}}>The CareSphere Pilot</h1>
           </div>
           <p className="page-hero-sub">A 6-week test of whether AI-driven detection of workload overload — using calendar signals — can help employees recognize and respond to burnout risk earlier, before it affects performance, wellbeing, or retention.</p>
