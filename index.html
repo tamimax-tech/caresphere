@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CareSphere — Wellbeing that works before it breaks down</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0F2444;--teal:#0E8A82;--teal-light:#12A99F;--dark:#071829;--off-white:#F4F7FA;--mid-grey:#8A9BB0}
+body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--navy);overflow-x:hidden}
+.site{min-height:100vh}
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:64px;background:rgba(7,24,41,0.96);border-bottom:1px solid rgba(14,138,130,0.2);backdrop-filter:blur(10px)}
+.logo{display:flex;align-items:center;gap:9px}
+.logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--teal-light));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:white;font-size:13px}
+.logo-name{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:white}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-link{color:rgba(255,255,255,0.65);font-size:13px;cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif}
+.nav-cta{background:var(--teal);color:white;border:none;padding:9px 18px;border-radius:6px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.hero{min-height:88vh;display:flex;align-items:center;background:var(--dark);position:relative;overflow:hidden;padding:90px 5% 70px}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.15;pointer-events:none}
+.orb1{width:520px;height:520px;background:var(--teal);top:-100px;right:-80px}
+.orb2{width:320px;height:320px;background:#0F2444;bottom:-50px;left:5%}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(14,138,130,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(14,138,130,0.05) 1px,transparent 1px);background-size:52px 52px;pointer-events:none}
+.hero-inner{position:relative;z-index:2;max-width:1140px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(14,138,130,0.15);border:1px solid rgba(14,138,130,0.3);color:var(--teal-light);padding:5px 13px;border-radius:100px;font-size:11px;margin-bottom:22px}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:var(--teal-light);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.hero-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(34px,4vw,52px);line-height:1.1;color:white;margin-bottom:18px;letter-spacing:-1.2px}
+.accent{color:var(--teal-light)}
+.hero-sub{font-size:16px;line-height:1.7;color:rgba(255,255,255,0.6);font-weight:300;margin-bottom:30px;max-width:460px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--teal);color:white;border:none;padding:13px 26px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s}
+.btn-primary:hover{background:var(--teal-light)}
+.btn-ghost{background:transparent;color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.2);padding:13px 26px;border-radius:8px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.trust{display:flex;gap:18px;margin-top:26px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.4);font-size:11px}
+.trust-icon{color:var(--teal)}
+.demo-card{background:rgba(255,255,255,0.04);border:1px solid rgba(14,138,130,0.25);border-radius:16px;padding:22px;backdrop-filter:blur(8px)}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.card-title{font-family:'Syne',sans-serif;font-weight:600;color:white;font-size:11px;letter-spacing:0.5px}
+.card-badge{background:rgba(14,138,130,0.2);color:var(--teal-light);padding:3px 9px;border-radius:100px;font-size:10px}
+.score-wrap{text-align:center;margin:14px 0 22px}
+.score-ring{width:96px;height:96px;border-radius:50%;margin:0 auto 10px;background:conic-gradient(var(--teal) 0deg 252deg,rgba(255,255,255,0.08) 252deg 360deg);display:flex;align-items:center;justify-content:center}
+.score-inner{width:72px;height:72px;border-radius:50%;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-num{font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:white;line-height:1}
+.score-den{font-size:10px;color:var(--mid-grey)}
+.score-lbl{color:var(--teal-light);font-size:11px;font-weight:500}
+.signals{display:flex;flex-direction:column;gap:9px}
+.signal{display:flex;gap:9px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:10px 12px}
+.sig-icon{font-size:14px;margin-top:2px}
+.sig-text{color:rgba(255,255,255,0.7);font-size:12px;line-height:1.5}
+.sig-bold{color:white;font-weight:500;display:block}
+.nudge{margin-top:13px;background:rgba(14,138,130,0.1);border:1px solid rgba(14,138,130,0.3);border-radius:10px;padding:12px}
+.nudge-lbl{color:var(--teal-light);font-size:9px;font-weight:600;letter-spacing:1px;margin-bottom:5px}
+.nudge-text{color:rgba(255,255,255,0.8);font-size:12px;line-height:1.5}
+.nudge-btns{display:flex;gap:7px;margin-top:9px}
+.nb{padding:5px 12px;border-radius:5px;font-size:11px;cursor:pointer;border:none;font-family:'DM Sans';font-weight:500}
+.nb-yes{background:var(--teal);color:white}
+.nb-no{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6)}
+.stats-bar{background:var(--navy);padding:52px 5%;border-top:1px solid rgba(14,138,130,0.15);border-bottom:1px solid rgba(14,138,130,0.15)}
+.stats-grid{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.stat{text-align:center;padding:18px}
+.stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:38px;color:var(--teal-light);letter-spacing:-1px;line-height:1;margin-bottom:7px}
+.stat-lbl{color:rgba(255,255,255,0.45);font-size:12px;line-height:1.4}
+.section{padding:76px 5%}
+.section-inner{max-width:1140px;margin:0 auto}
+.sec-tag{color:var(--teal);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(26px,2.8vw,38px);letter-spacing:-0.8px;line-height:1.15;margin-bottom:14px}
+.sec-sub{color:var(--mid-grey);font-size:15px;line-height:1.7;font-weight:300;max-width:520px}
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;margin-top:42px}
+.prob-cards{display:flex;flex-direction:column;gap:13px}
+.prob-card{border-left:3px solid var(--teal);padding:14px 16px;background:var(--off-white);border-radius:0 8px 8px 0}
+.prob-card-title{font-weight:600;font-size:13px;margin-bottom:5px}
+.prob-card-text{font-size:12px;color:var(--mid-grey);line-height:1.5}
+.stake-sec{background:#EEF3F8}
+.tabs{display:flex;gap:3px;margin:32px 0 28px;background:rgba(255,255,255,0.9);padding:4px;border-radius:9px;width:fit-content;border:1px solid #DDE5EF}
+.tab{padding:9px 22px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;border:none;background:transparent;font-family:'DM Sans';color:var(--mid-grey)}
+.tab.active{background:var(--navy);color:white}
+.stake-content{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+.features{display:flex;flex-direction:column;gap:13px}
+.feat{display:flex;gap:13px;padding:14px;background:white;border-radius:10px;border:1px solid #E0EAF4;transition:border-color 0.2s}
+.feat:hover{border-color:var(--teal)}
+.feat-icon{width:34px;height:34px;border-radius:7px;background:rgba(14,138,130,0.1);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.feat-title{font-weight:600;font-size:13px;margin-bottom:3px}
+.feat-text{font-size:12px;color:var(--mid-grey);line-height:1.5}
+.panel{background:var(--navy);border-radius:13px;padding:24px;color:white}
+.panel-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;margin-bottom:4px}
+.panel-sub{color:rgba(255,255,255,0.45);font-size:12px;margin-bottom:20px}
+.metric{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.metric:last-of-type{border-bottom:none}
+.metric-lbl{color:rgba(255,255,255,0.55);font-size:12px}
+.metric-val{font-family:'Syne',sans-serif;font-weight:700;font-size:18px}
+.green{color:#4ade80}.amber{color:#fbbf24}.teal{color:var(--teal-light)}
+.panel-btn{margin-top:16px;width:100%;padding:11px;background:var(--teal);color:white;border:none;border-radius:7px;font-size:13px;cursor:pointer;font-family:'DM Sans';font-weight:500}
+.how-sec{background:white}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:42px}
+.step-num{font-family:'Syne',sans-serif;font-weight:800;font-size:42px;color:rgba(14,138,130,0.12);line-height:1;margin-bottom:11px}
+.step-icon{font-size:22px;margin-bottom:11px}
+.step-title{font-weight:600;font-size:14px;margin-bottom:7px}
+.step-text{font-size:12px;color:var(--mid-grey);line-height:1.55}
+.pilot-sec{background:var(--dark);padding:76px 5%}
+.pilot-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:center}
+.pilot-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(26px,3vw,40px);color:white;letter-spacing:-0.8px;margin-bottom:14px}
+.pilot-sub{color:rgba(255,255,255,0.45);font-size:14px;line-height:1.7;font-weight:300;margin-bottom:26px}
+.pilot-specs{display:flex;flex-direction:column;gap:11px;margin-bottom:28px}
+.pilot-spec{display:flex;gap:10px;align-items:center}
+.spec-icon{color:var(--teal-light);font-size:14px}
+.spec-text{color:rgba(255,255,255,0.65);font-size:13px}
+.pilot-card{background:rgba(255,255,255,0.04);border:1px solid rgba(14,138,130,0.25);border-radius:13px;padding:26px}
+.pilot-card-title{font-family:'Syne',sans-serif;font-weight:700;color:white;font-size:15px;margin-bottom:20px}
+.timeline{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:14px;padding-bottom:18px}
+.tl-item:last-child{padding-bottom:0}
+.tl-left{display:flex;flex-direction:column;align-items:center}
+.tl-dot{width:9px;height:9px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:3px}
+.tl-line{flex:1;width:1px;background:rgba(14,138,130,0.25);margin-top:3px}
+.tl-week{color:var(--teal-light);font-size:10px;font-weight:600;letter-spacing:0.5px;margin-bottom:3px}
+.tl-text{color:rgba(255,255,255,0.6);font-size:12px;line-height:1.5}
+.priv-sec{background:var(--off-white)}
+.priv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:42px}
+.priv-card{background:white;border-radius:11px;padding:22px;border:1px solid #E0EAF4;border-top:3px solid var(--teal)}
+.priv-icon{font-size:26px;margin-bottom:13px}
+.priv-title{font-weight:600;font-size:14px;margin-bottom:7px}
+.priv-text{font-size:12px;color:var(--mid-grey);line-height:1.55}
+.cta-sec{background:var(--navy);padding:76px 5%;text-align:center}
+.cta-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(26px,3.5vw,44px);color:white;letter-spacing:-1.2px;margin-bottom:14px}
+.cta-title span{color:var(--teal-light)}
+.cta-sub{color:rgba(255,255,255,0.45);font-size:15px;margin-bottom:30px;max-width:440px;margin-left:auto;margin-right:auto;font-weight:300}
+.cta-form{display:flex;gap:9px;max-width:410px;margin:0 auto}
+.cta-input{flex:1;padding:12px 15px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.07);color:white;font-size:13px;font-family:'DM Sans';outline:none}
+.cta-input::placeholder{color:rgba(255,255,255,0.3)}
+.cta-input:focus{border-color:var(--teal)}
+.cta-note{color:rgba(255,255,255,0.25);font-size:11px;margin-top:11px}
+.mit-badge{color:rgba(255,255,255,0.35);font-size:11px;margin-top:24px}
+.footer{background:var(--dark);padding:30px 5%;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(14,138,130,0.1)}
+.footer-r{color:rgba(255,255,255,0.25);font-size:11px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--teal);color:white;padding:10px 22px;border-radius:100px;font-size:13px;z-index:999;transition:transform 0.3s;box-shadow:0 8px 24px rgba(14,138,130,0.4);pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+
+const stakeholders = {
+  employees:{
+    label:"Employees",
+    features:[
+      {icon:"🎯",title:"Burnout early warning",text:"Detects overload in your calendar weeks before you feel it — meeting density, fragmented focus time, after-hours spikes."},
+      {icon:"💬",title:"Private nudges only",text:"Messages go only to you through Teams or Slack. Never shared with HR or your manager. Ever."},
+      {icon:"🧭",title:"Portable wellbeing profile",text:"Your wellbeing history travels with you across organizations. You own your data."}
+    ],
+    panel:{title:"Your Wellbeing Dashboard",sub:"Private · Updated daily",
+      metrics:[{l:"Wellbeing Index",v:"7.2 / 10",c:"teal"},{l:"Focus time this week",v:"↓ 38%",c:"amber"},{l:"After-hours work (7 days)",v:"4 evenings",c:"amber"},{l:"Back-to-back meetings",v:"3 tomorrow",c:"amber"}],
+      cta:"View my full report →"}
+  },
+  hr:{
+    label:"HR & Employers",
+    features:[
+      {icon:"📊",title:"Org wellbeing heatmap",text:"Aggregate, anonymized overload signals across teams — see which departments are at risk before turnover happens."},
+      {icon:"💰",title:"ROI reporting",text:"One prevented attrition event covers the cost of 200+ employee subscriptions."},
+      {icon:"🔗",title:"Seamless HRIS integration",text:"Connects to Workday, Teams, Slack, and Google Calendar via read-only API. No IT engineering time needed for the pilot."}
+    ],
+    panel:{title:"Team Overload Heatmap",sub:"Anonymized · Last 30 days",
+      metrics:[{l:"Employees at overload risk",v:"12%",c:"amber"},{l:"Avg focus time this month",v:"↓ 22%",c:"amber"},{l:"After-hours work rate",v:"34%",c:"amber"},{l:"Projected turnover risk",v:"↓ 18%",c:"green"}],
+      cta:"Request a pilot report →"}
+  },
+  providers:{
+    label:"Wellbeing Providers",
+    features:[
+      {icon:"🏪",title:"Free marketplace listing",text:"List your EAP services, coaching programmes, or wellness content for free. Reach employees at their moment of need."},
+      {icon:"📈",title:"Aggregate demand intelligence",text:"Anonymized wellbeing trends show what interventions are most needed before you build them."},
+      {icon:"🤝",title:"Non-compete commitment",text:"We will never build in-house therapy, coaching, or financial services that compete with you. Our role is AI orchestration only."}
+    ],
+    panel:{title:"Provider Dashboard",sub:"Marketplace · Live",
+      metrics:[{l:"Active employee reach",v:"2,400+",c:"teal"},{l:"Referrals this month",v:"+147",c:"green"},{l:"Avg intervention match",v:"87%",c:"teal"},{l:"Provider NPS",v:"72",c:"green"}],
+      cta:"Join the marketplace →"}
+  }
+};
+
+function App() {
+  const [tab, setTab] = useState("employees");
+  const [email, setEmail] = useState("");
+  const [done, setDone] = useState(false);
+  const [toast, setToast] = useState(false);
+  const t = stakeholders[tab];
+
+  const submit = () => {
+    if(email.includes("@")){
+      setDone(true); setToast(true);
+      setTimeout(() => setToast(false), 3200);
+    }
+  };
+
+  return (
+    <div className="site">
+      <nav className="nav">
+        <div className="logo">
+          <div className="logo-mark">CS</div>
+          <span className="logo-name">CareSphere</span>
+        </div>
+        <div className="nav-links">
+          {["For Employees","For HR","For Providers","The Pilot"].map(l => (
+            <button key={l} className="nav-link">{l}</button>
+          ))}
+          <button className="nav-cta">Join the pilot →</button>
+        </div>
+      </nav>
+
+      <section className="hero">
+        <div className="hero-orb orb1"/><div className="hero-orb orb2"/><div className="hero-grid"/>
+        <div className="hero-inner">
+          <div>
+            <div className="hero-badge"><div className="badge-dot"/>MIT CDO Program · Pilot Launching 2025</div>
+            <h1 className="hero-title">Wellbeing that<br/><span className="accent">works before</span><br/>it breaks down</h1>
+            <p className="hero-sub">CareSphere detects burnout risk in calendar patterns weeks before employees feel it — and delivers private, actionable nudges in the flow of work.</p>
+            <div className="hero-btns">
+              <button className="btn-primary">Join the pilot →</button>
+              <button className="btn-ghost">See how it works</button>
+            </div>
+            <div className="trust">
+              {["Privacy-first","No management visibility","Human-in-the-loop","MIT CDO Program"].map(t => (
+                <div key={t} className="trust-item"><span className="trust-icon">✓</span>{t}</div>
+              ))}
+            </div>
+          </div>
+          <div className="demo-card">
+            <div className="card-header">
+              <span className="card-title">EMPLOYEE WELLBEING · PRIVATE</span>
+              <span className="card-badge">Live signal</span>
+            </div>
+            <div className="score-wrap">
+              <div className="score-ring"><div className="score-inner"><span className="score-num">7.0</span><span className="score-den">/10</span></div></div>
+              <div className="score-lbl">Wellbeing Index · This week</div>
+            </div>
+            <div className="signals">
+              <div className="signal"><span className="sig-icon">⚠️</span><span className="sig-text"><strong className="sig-bold">Focus time dropped 40% this week</strong>14 meetings, 3 back-to-back before 9am tomorrow</span></div>
+              <div className="signal"><span className="sig-icon">🌙</span><span className="sig-text"><strong className="sig-bold">After-hours: 4 of last 5 evenings</strong>2.3× above your personal baseline</span></div>
+            </div>
+            <div className="nudge">
+              <div className="nudge-lbl">CARESPHERE SUGGESTS</div>
+              <div className="nudge-text">Block tomorrow 2–4pm for deep work. Decline the 8:30am standup — it has notes. You've earned the space.</div>
+              <div className="nudge-btns"><button className="nb nb-yes">Block it ✓</button><button className="nb nb-no">Maybe later</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="stats-bar">
+        <div className="stats-grid">
+          {[{n:"50–200%",l:"of annual salary to replace one employee"},{n:"77%",l:"of workers experienced burnout at their current job"},{n:"1 in 3",l:"say wellbeing tools are reactive, not proactive"},{n:"$322B",l:"lost annually to burnout-related turnover globally"}].map(s => (
+            <div key={s.n} className="stat"><div className="stat-num">{s.n}</div><div className="stat-lbl">{s.l}</div></div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section" style={{background:"white"}}>
+        <div className="section-inner">
+          <div className="sec-tag">The Problem</div>
+          <h2 className="sec-title">Wellbeing programs arrive too late</h2>
+          <div className="prob-grid">
+            <div>
+              <p className="sec-sub" style={{maxWidth:"100%",marginBottom:20}}>Most organizations offer EAPs, wellness apps, and mental health resources. Employees rarely use them — because they are designed for crisis, not prevention. By the time someone reaches for help, the damage is already done.</p>
+              <p className="sec-sub" style={{maxWidth:"100%"}}>CareSphere flips the model. Instead of waiting for employees to self-report distress, it reads behavioral signals already present in work patterns and intervenes proactively, privately, before burnout takes hold.</p>
+            </div>
+            <div className="prob-cards">
+              {[{t:"Fragmented tools",x:"EAPs, mental health apps, and career tools exist in silos — none connected to real-time work context."},{t:"Reactive by design",x:"Help is available only after employees recognize they need it. Burnout erodes that self-awareness first."},{t:"No org intelligence",x:"HR has no aggregate view of team overload risk until turnover or performance issues make it visible."},{t:"Trust deficit",x:"Employees do not trust tools that report data back to their employer — so they do not engage."}].map(c => (
+                <div key={c.t} className="prob-card"><div className="prob-card-title">{c.t}</div><div className="prob-card-text">{c.x}</div></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section stake-sec">
+        <div className="section-inner">
+          <div className="sec-tag">One Platform</div>
+          <h2 className="sec-title">Built for three connected communities</h2>
+          <p className="sec-sub">CareSphere connects employees who need support, organizations that fund it, and providers who deliver it.</p>
+          <div className="tabs">
+            {Object.entries(stakeholders).map(([k,v]) => (
+              <button key={k} className={"tab"+(tab===k?" active":"")} onClick={() => setTab(k)}>{v.label}</button>
+            ))}
+          </div>
+          <div className="stake-content">
+            <div className="features">
+              {t.features.map(f => (
+                <div key={f.title} className="feat">
+                  <div className="feat-icon">{f.icon}</div>
+                  <div><div className="feat-title">{f.title}</div><div className="feat-text">{f.text}</div></div>
+                </div>
+              ))}
+            </div>
+            <div className="panel">
+              <div className="panel-title">{t.panel.title}</div>
+              <div className="panel-sub">{t.panel.sub}</div>
+              {t.panel.metrics.map(m => (
+                <div key={m.l} className="metric"><span className="metric-lbl">{m.l}</span><span className={"metric-val "+m.c}>{m.v}</span></div>
+              ))}
+              <button className="panel-btn">{t.panel.cta}</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section how-sec">
+        <div className="section-inner">
+          <div className="sec-tag">How It Works</div>
+          <h2 className="sec-title">From signal to action in under 24 hours</h2>
+          <div className="steps">
+            {[{n:"01",i:"📅",t:"Calendar signal",x:"With your consent, CareSphere reads your work calendar only — meeting load, focus blocks, after-hours patterns. No email, no messages."},{n:"02",i:"🧠",t:"AI detection",x:"The overload engine runs daily, identifying patterns that correlate with burnout risk weeks before employees feel the effects."},{n:"03",i:"💬",t:"Private nudge",x:"A private message is sent to you through Teams or Slack. No HR. No manager. Just you and a concrete suggestion."},{n:"04",i:"📈",t:"Learning loop",x:"Your responses improve the model. Over time, CareSphere becomes more precise to your patterns, baseline, and context."}].map(s => (
+              <div key={s.n}><div className="step-num">{s.n}</div><div className="step-icon">{s.i}</div><div className="step-title">{s.t}</div><div className="step-text">{s.x}</div></div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="pilot-sec">
+        <div className="pilot-inner">
+          <div>
+            <div className="sec-tag" style={{color:"var(--teal-light)"}}>The Pilot</div>
+            <h2 className="pilot-title">6 weeks.<br/>15–25 volunteers.<br/>Real results.</h2>
+            <p className="pilot-sub">We are running CareSphere's first real-world pilot with a partner organization. No cost, no infrastructure changes, no commitment beyond 6 weeks.</p>
+            <div className="pilot-specs">
+              {[["📅","6-week pilot duration"],["👥","15–25 volunteer employees (opt-in only)"],["🔒","Read-only calendar API — no email, no messages"],["📊","Anonymized overload report for your organization"],["💰","Zero cost to the sponsor organization"]].map(([i,t]) => (
+                <div key={t} className="pilot-spec"><span className="spec-icon">{i}</span><span className="spec-text">{t}</span></div>
+              ))}
+            </div>
+            <button className="btn-primary">Become a pilot partner →</button>
+          </div>
+          <div className="pilot-card">
+            <div className="pilot-card-title">Pilot Timeline</div>
+            <div className="timeline">
+              {[["Weeks 1–2","Setup, informed consent, IT integration, baseline survey"],["Week 3","Baseline data collection — detection running, no nudges yet"],["Weeks 4–6","Active pilot: nudges live, weekly check-in surveys"],["Week 7","Debrief, analysis, anonymized report delivered to partner"]].map(([w,x],i,a) => (
+                <div key={w} className="tl-item">
+                  <div className="tl-left"><div className="tl-dot"/>{i<a.length-1&&<div className="tl-line"/>}</div>
+                  <div><div className="tl-week">{w}</div><div className="tl-text">{x}</div></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section priv-sec">
+        <div className="section-inner">
+          <div className="sec-tag">Privacy & Trust</div>
+          <h2 className="sec-title">Wellbeing data deserves the highest standard</h2>
+          <p className="sec-sub">Every architectural decision was made with employee trust as the primary constraint.</p>
+          <div className="priv-grid">
+            {[{i:"🔐",t:"Data never shared",x:"No individual data is ever accessible to management, HR, or your employer. Only you see your private report."},{i:"✍️",t:"Informed consent",x:"Every participant signs consent before any data is collected. Withdrawal is possible at any time."},{i:"🗄️",t:"Encrypted & deleted",x:"Calendar data is encrypted, accessible only to the project team, and deleted after the pilot ends."},{i:"👁️",t:"Read-only access only",x:"CareSphere reads calendar metadata only. No email content, no messages, no screen activity. Ever."},{i:"🏛️",t:"MIT ethics review",x:"The pilot is submitted for MIT research ethics review before any data collection begins."},{i:"🌍",t:"GDPR & PDPL compliant",x:"Designed for EU GDPR and UAE PDPL compliance from the ground up."}].map(c => (
+              <div key={c.t} className="priv-card"><div className="priv-icon">{c.i}</div><div className="priv-title">{c.t}</div><div className="priv-text">{c.x}</div></div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="cta-sec">
+        <div className="sec-tag" style={{color:"var(--teal-light)"}}>Get Involved</div>
+        <h2 className="cta-title">Ready to bring <span>CareSphere</span> to your team?</h2>
+        <p className="cta-sub">Whether you are an HR leader, a wellbeing provider, or an employee who wants early access — we would love to hear from you.</p>
+        {!done ? (
+          <div className="cta-form">
+            <input className="cta-input" placeholder="your@email.com" value={email} onChange={e=>setEmail(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()}/>
+            <button className="btn-primary" onClick={submit}>Register interest</button>
+          </div>
+        ) : (
+          <p style={{color:"var(--teal-light)",fontSize:15,fontWeight:500}}>✓ Thank you — we will be in touch.</p>
+        )}
+        <p className="cta-note">No spam. No commitment. Just a conversation.</p>
+        <div className="mit-badge">🎓 MIT Professional Education · Chief Digital Officer Program · Group 3 · 2025</div>
+      </section>
+
+      <footer className="footer">
+        <div className="logo"><div className="logo-mark" style={{width:28,height:28,fontSize:12}}>CS</div><span className="logo-name">CareSphere</span></div>
+        <div className="footer-r">© 2025 CareSphere · MIT CDO Program · Group 3 · Built with purpose</div>
+      </footer>
+
+      <div className={"toast"+(toast?" show":"")} >✓ You are on the list — we will be in touch!</div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
