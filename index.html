@@ -2,238 +2,295 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CareSphere — Wellbeing that works before it breaks down</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CareSphere — Care That Evolves With You</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--navy:#0F2444;--teal:#0E8A82;--teal-light:#12A99F;--dark:#071829;--off-white:#F4F7FA;--mid-grey:#8A9BB0}
+:root{--navy:#0F2444;--teal:#0E8A82;--teal-light:#12A99F;--dark:#071829;--off-white:#F4F7FA;--mid-grey:#8A9BB0;--light-border:#E0EAF4}
 body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--navy);overflow-x:hidden}
-.site{min-height:100vh}
-.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:64px;background:rgba(7,24,41,0.96);border-bottom:1px solid rgba(14,138,130,0.2);backdrop-filter:blur(10px)}
-.logo{display:flex;align-items:center;gap:9px}
-.logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--teal-light));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:white;font-size:13px}
-.logo-name{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:white}
-.nav-links{display:flex;gap:28px;align-items:center}
-.nav-link{color:rgba(255,255,255,0.65);font-size:13px;cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif}
-.nav-cta{background:var(--teal);color:white;border:none;padding:9px 18px;border-radius:6px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif}
+h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}
+.page{display:none}
+.page.active{display:block}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:68px;background:rgba(7,24,41,0.97);border-bottom:1px solid rgba(14,138,130,0.2);backdrop-filter:blur(12px)}
+.nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.nav-logo-img{width:36px;height:36px;border-radius:50%;background:white;padding:2px;object-fit:contain}
+.nav-logo-name{font-family:'DM Serif Display',serif;font-size:20px;color:white;letter-spacing:0.3px}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-link{color:rgba(255,255,255,0.65);font-size:13px;cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;padding:7px 14px;border-radius:6px;transition:all 0.2s}
+.nav-link:hover{color:white;background:rgba(255,255,255,0.08)}
+.nav-link.active{color:var(--teal-light);background:rgba(14,138,130,0.12)}
+.nav-cta{background:var(--teal);color:white;border:none;padding:9px 20px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;margin-left:8px}
+.nav-cta:hover{background:var(--teal-light)}
+
+/* BUTTONS */
+.btn-primary{background:var(--teal);color:white;border:none;padding:13px 28px;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:var(--teal-light);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.25);padding:13px 28px;border-radius:8px;font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-ghost:hover{border-color:var(--teal-light);color:var(--teal-light)}
+.btn-outline{background:transparent;color:var(--teal);border:1.5px solid var(--teal);padding:11px 24px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-outline:hover{background:var(--teal);color:white}
+
+/* HERO BASE */
 .hero{min-height:88vh;display:flex;align-items:center;background:var(--dark);position:relative;overflow:hidden;padding:90px 5% 70px}
-.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.15;pointer-events:none}
-.orb1{width:520px;height:520px;background:var(--teal);top:-100px;right:-80px}
-.orb2{width:320px;height:320px;background:#0F2444;bottom:-50px;left:5%}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(14,138,130,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(14,138,130,0.05) 1px,transparent 1px);background-size:52px 52px;pointer-events:none}
-.hero-inner{position:relative;z-index:2;max-width:1140px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-.hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(14,138,130,0.15);border:1px solid rgba(14,138,130,0.3);color:var(--teal-light);padding:5px 13px;border-radius:100px;font-size:11px;margin-bottom:22px}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:0.14;pointer-events:none}
+.orb1{width:560px;height:560px;background:var(--teal);top:-120px;right:-100px}
+.orb2{width:340px;height:340px;background:#1a3a6e;bottom:-60px;left:3%}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(14,138,130,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(14,138,130,0.05) 1px,transparent 1px);background-size:54px 54px;pointer-events:none}
+.hero-inner{position:relative;z-index:2;max-width:1160px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(14,138,130,0.15);border:1px solid rgba(14,138,130,0.3);color:var(--teal-light);padding:6px 14px;border-radius:100px;font-size:11px;font-weight:500;margin-bottom:20px;letter-spacing:0.3px}
 .badge-dot{width:5px;height:5px;border-radius:50%;background:var(--teal-light);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-.hero-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(34px,4vw,52px);line-height:1.1;color:white;margin-bottom:18px;letter-spacing:-1.2px}
-.accent{color:var(--teal-light)}
-.hero-sub{font-size:16px;line-height:1.7;color:rgba(255,255,255,0.6);font-weight:300;margin-bottom:30px;max-width:460px}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn-primary{background:var(--teal);color:white;border:none;padding:13px 26px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s}
-.btn-primary:hover{background:var(--teal-light)}
-.btn-ghost{background:transparent;color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.2);padding:13px 26px;border-radius:8px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif}
-.trust{display:flex;gap:18px;margin-top:26px;flex-wrap:wrap}
-.trust-item{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.4);font-size:11px}
-.trust-icon{color:var(--teal)}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(38px,4.5vw,58px);line-height:1.1;color:white;margin-bottom:18px}
+.hero-title .accent{color:var(--teal-light)}
+.hero-sub{font-size:16px;line-height:1.75;color:rgba(255,255,255,0.58);font-weight:300;margin-bottom:32px;max-width:470px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.trust-row{display:flex;gap:20px;margin-top:28px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.38);font-size:11px}
+.trust-icon{color:var(--teal);font-size:13px}
+
+/* DEMO CARD */
 .demo-card{background:rgba(255,255,255,0.04);border:1px solid rgba(14,138,130,0.25);border-radius:16px;padding:22px;backdrop-filter:blur(8px)}
-.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.card-title{font-family:'Syne',sans-serif;font-weight:600;color:white;font-size:11px;letter-spacing:0.5px}
-.card-badge{background:rgba(14,138,130,0.2);color:var(--teal-light);padding:3px 9px;border-radius:100px;font-size:10px}
-.score-wrap{text-align:center;margin:14px 0 22px}
-.score-ring{width:96px;height:96px;border-radius:50%;margin:0 auto 10px;background:conic-gradient(var(--teal) 0deg 252deg,rgba(255,255,255,0.08) 252deg 360deg);display:flex;align-items:center;justify-content:center}
+.card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.card-label{font-size:10px;font-weight:600;color:rgba(255,255,255,0.5);letter-spacing:1px}
+.live-badge{background:rgba(14,138,130,0.2);color:var(--teal-light);padding:3px 10px;border-radius:100px;font-size:10px}
+.score-wrap{text-align:center;margin:12px 0 20px}
+.score-ring{width:96px;height:96px;border-radius:50%;margin:0 auto 10px;background:conic-gradient(var(--teal) 0deg 252deg,rgba(255,255,255,0.07) 252deg 360deg);display:flex;align-items:center;justify-content:center}
 .score-inner{width:72px;height:72px;border-radius:50%;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center}
-.score-num{font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:white;line-height:1}
+.score-num{font-family:'DM Serif Display',serif;font-size:26px;color:white;line-height:1}
 .score-den{font-size:10px;color:var(--mid-grey)}
 .score-lbl{color:var(--teal-light);font-size:11px;font-weight:500}
-.signals{display:flex;flex-direction:column;gap:9px}
+.signals{display:flex;flex-direction:column;gap:8px}
 .signal{display:flex;gap:9px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:10px 12px}
-.sig-icon{font-size:14px;margin-top:2px}
-.sig-text{color:rgba(255,255,255,0.7);font-size:12px;line-height:1.5}
+.sig-icon{font-size:14px;margin-top:2px;flex-shrink:0}
+.sig-text{color:rgba(255,255,255,0.68);font-size:12px;line-height:1.5}
 .sig-bold{color:white;font-weight:500;display:block}
-.nudge{margin-top:13px;background:rgba(14,138,130,0.1);border:1px solid rgba(14,138,130,0.3);border-radius:10px;padding:12px}
-.nudge-lbl{color:var(--teal-light);font-size:9px;font-weight:600;letter-spacing:1px;margin-bottom:5px}
-.nudge-text{color:rgba(255,255,255,0.8);font-size:12px;line-height:1.5}
-.nudge-btns{display:flex;gap:7px;margin-top:9px}
-.nb{padding:5px 12px;border-radius:5px;font-size:11px;cursor:pointer;border:none;font-family:'DM Sans';font-weight:500}
+.nudge-box{margin-top:12px;background:rgba(14,138,130,0.1);border:1px solid rgba(14,138,130,0.3);border-radius:10px;padding:12px}
+.nudge-lbl{color:var(--teal-light);font-size:9px;font-weight:600;letter-spacing:1.2px;margin-bottom:5px}
+.nudge-text{color:rgba(255,255,255,0.78);font-size:12px;line-height:1.55}
+.nudge-btns{display:flex;gap:8px;margin-top:9px}
+.nb{padding:5px 13px;border-radius:5px;font-size:11px;cursor:pointer;border:none;font-family:'DM Sans';font-weight:500}
 .nb-yes{background:var(--teal);color:white}
-.nb-no{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6)}
+.nb-no{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.55)}
+
+/* STATS BAR */
 .stats-bar{background:var(--navy);padding:52px 5%;border-top:1px solid rgba(14,138,130,0.15);border-bottom:1px solid rgba(14,138,130,0.15)}
-.stats-grid{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.stat{text-align:center;padding:18px}
-.stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:38px;color:var(--teal-light);letter-spacing:-1px;line-height:1;margin-bottom:7px}
-.stat-lbl{color:rgba(255,255,255,0.45);font-size:12px;line-height:1.4}
-.section{padding:76px 5%}
-.section-inner{max-width:1140px;margin:0 auto}
+.stats-grid{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.stat{text-align:center;padding:16px}
+.stat-num{font-family:'DM Serif Display',serif;font-size:40px;color:var(--teal-light);line-height:1;margin-bottom:8px}
+.stat-lbl{color:rgba(255,255,255,0.42);font-size:12px;line-height:1.4}
+
+/* SECTIONS */
+.section{padding:80px 5%}
+.section-inner{max-width:1160px;margin:0 auto}
 .sec-tag{color:var(--teal);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
-.sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(26px,2.8vw,38px);letter-spacing:-0.8px;line-height:1.15;margin-bottom:14px}
-.sec-sub{color:var(--mid-grey);font-size:15px;line-height:1.7;font-weight:300;max-width:520px}
-.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;margin-top:42px}
-.prob-cards{display:flex;flex-direction:column;gap:13px}
-.prob-card{border-left:3px solid var(--teal);padding:14px 16px;background:var(--off-white);border-radius:0 8px 8px 0}
-.prob-card-title{font-weight:600;font-size:13px;margin-bottom:5px}
-.prob-card-text{font-size:12px;color:var(--mid-grey);line-height:1.5}
-.stake-sec{background:#EEF3F8}
-.tabs{display:flex;gap:3px;margin:32px 0 28px;background:rgba(255,255,255,0.9);padding:4px;border-radius:9px;width:fit-content;border:1px solid #DDE5EF}
-.tab{padding:9px 22px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;border:none;background:transparent;font-family:'DM Sans';color:var(--mid-grey)}
-.tab.active{background:var(--navy);color:white}
-.stake-content{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
-.features{display:flex;flex-direction:column;gap:13px}
-.feat{display:flex;gap:13px;padding:14px;background:white;border-radius:10px;border:1px solid #E0EAF4;transition:border-color 0.2s}
-.feat:hover{border-color:var(--teal)}
-.feat-icon{width:34px;height:34px;border-radius:7px;background:rgba(14,138,130,0.1);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.feat-title{font-weight:600;font-size:13px;margin-bottom:3px}
-.feat-text{font-size:12px;color:var(--mid-grey);line-height:1.5}
-.panel{background:var(--navy);border-radius:13px;padding:24px;color:white}
-.panel-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;margin-bottom:4px}
-.panel-sub{color:rgba(255,255,255,0.45);font-size:12px;margin-bottom:20px}
-.metric{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(28px,3vw,42px);line-height:1.15;margin-bottom:14px;color:var(--navy)}
+.sec-sub{color:var(--mid-grey);font-size:15px;line-height:1.75;font-weight:300;max-width:540px}
+.sec-title-white{font-family:'DM Serif Display',serif;font-size:clamp(28px,3vw,42px);line-height:1.15;margin-bottom:14px;color:white}
+
+/* HOME CARDS */
+.home-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:50px}
+.home-card{background:white;border-radius:14px;padding:28px;border:1px solid var(--light-border);cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden}
+.home-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--teal);transform:scaleX(0);transition:transform 0.25s;transform-origin:left}
+.home-card:hover{border-color:var(--teal);box-shadow:0 8px 32px rgba(14,138,130,0.12);transform:translateY(-3px)}
+.home-card:hover::after{transform:scaleX(1)}
+.home-card-icon{font-size:32px;margin-bottom:14px}
+.home-card-title{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:10px;color:var(--navy)}
+.home-card-text{font-size:13px;color:var(--mid-grey);line-height:1.6;margin-bottom:18px}
+.home-card-link{color:var(--teal);font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px}
+
+/* FEATURE CARDS */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.feat-card{background:white;border-radius:12px;padding:22px;border:1px solid var(--light-border);transition:all 0.2s}
+.feat-card:hover{border-color:var(--teal);box-shadow:0 4px 20px rgba(14,138,130,0.1)}
+.feat-icon{width:40px;height:40px;border-radius:10px;background:rgba(14,138,130,0.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px}
+.feat-title{font-weight:600;font-size:14px;margin-bottom:7px;color:var(--navy)}
+.feat-text{font-size:13px;color:var(--mid-grey);line-height:1.6}
+
+/* TWO COL */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.two-col-rev{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+
+/* PANEL */
+.panel{background:var(--navy);border-radius:14px;padding:28px;color:white}
+.panel-title{font-family:'DM Serif Display',serif;font-size:22px;color:white;margin-bottom:5px}
+.panel-sub{color:rgba(255,255,255,0.4);font-size:12px;margin-bottom:22px}
+.metric{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07)}
 .metric:last-of-type{border-bottom:none}
-.metric-lbl{color:rgba(255,255,255,0.55);font-size:12px}
-.metric-val{font-family:'Syne',sans-serif;font-weight:700;font-size:18px}
-.green{color:#4ade80}.amber{color:#fbbf24}.teal{color:var(--teal-light)}
-.panel-btn{margin-top:16px;width:100%;padding:11px;background:var(--teal);color:white;border:none;border-radius:7px;font-size:13px;cursor:pointer;font-family:'DM Sans';font-weight:500}
-.how-sec{background:white}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:42px}
-.step-num{font-family:'Syne',sans-serif;font-weight:800;font-size:42px;color:rgba(14,138,130,0.12);line-height:1;margin-bottom:11px}
-.step-icon{font-size:22px;margin-bottom:11px}
-.step-title{font-weight:600;font-size:14px;margin-bottom:7px}
-.step-text{font-size:12px;color:var(--mid-grey);line-height:1.55}
-.pilot-sec{background:var(--dark);padding:76px 5%}
-.pilot-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:center}
-.pilot-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(26px,3vw,40px);color:white;letter-spacing:-0.8px;margin-bottom:14px}
-.pilot-sub{color:rgba(255,255,255,0.45);font-size:14px;line-height:1.7;font-weight:300;margin-bottom:26px}
-.pilot-specs{display:flex;flex-direction:column;gap:11px;margin-bottom:28px}
-.pilot-spec{display:flex;gap:10px;align-items:center}
-.spec-icon{color:var(--teal-light);font-size:14px}
-.spec-text{color:rgba(255,255,255,0.65);font-size:13px}
-.pilot-card{background:rgba(255,255,255,0.04);border:1px solid rgba(14,138,130,0.25);border-radius:13px;padding:26px}
-.pilot-card-title{font-family:'Syne',sans-serif;font-weight:700;color:white;font-size:15px;margin-bottom:20px}
+.metric-lbl{color:rgba(255,255,255,0.52);font-size:13px}
+.metric-val{font-family:'DM Serif Display',serif;font-size:22px}
+.green{color:#4ade80}.amber{color:#fbbf24}.teal-c{color:var(--teal-light)}
+.panel-btn{margin-top:18px;width:100%;padding:12px;background:var(--teal);color:white;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans';transition:background 0.2s}
+.panel-btn:hover{background:var(--teal-light)}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:44px}
+.step-num{font-family:'DM Serif Display',serif;font-size:52px;color:rgba(14,138,130,0.12);line-height:1;margin-bottom:10px}
+.step-icon{font-size:24px;margin-bottom:12px}
+.step-title{font-weight:600;font-size:14px;margin-bottom:7px;color:var(--navy)}
+.step-text{font-size:12px;color:var(--mid-grey);line-height:1.6}
+
+/* PRIVACY */
+.priv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+.priv-card{background:white;border-radius:12px;padding:22px;border:1px solid var(--light-border);border-top:3px solid var(--teal)}
+.priv-icon{font-size:28px;margin-bottom:13px}
+.priv-title{font-weight:600;font-size:14px;margin-bottom:7px;color:var(--navy)}
+.priv-text{font-size:12px;color:var(--mid-grey);line-height:1.6}
+
+/* TIMELINE */
 .timeline{display:flex;flex-direction:column}
-.tl-item{display:flex;gap:14px;padding-bottom:18px}
+.tl-item{display:flex;gap:16px;padding-bottom:22px}
 .tl-item:last-child{padding-bottom:0}
 .tl-left{display:flex;flex-direction:column;align-items:center}
-.tl-dot{width:9px;height:9px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:3px}
-.tl-line{flex:1;width:1px;background:rgba(14,138,130,0.25);margin-top:3px}
-.tl-week{color:var(--teal-light);font-size:10px;font-weight:600;letter-spacing:0.5px;margin-bottom:3px}
-.tl-text{color:rgba(255,255,255,0.6);font-size:12px;line-height:1.5}
-.priv-sec{background:var(--off-white)}
-.priv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:42px}
-.priv-card{background:white;border-radius:11px;padding:22px;border:1px solid #E0EAF4;border-top:3px solid var(--teal)}
-.priv-icon{font-size:26px;margin-bottom:13px}
-.priv-title{font-weight:600;font-size:14px;margin-bottom:7px}
-.priv-text{font-size:12px;color:var(--mid-grey);line-height:1.55}
-.cta-sec{background:var(--navy);padding:76px 5%;text-align:center}
-.cta-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(26px,3.5vw,44px);color:white;letter-spacing:-1.2px;margin-bottom:14px}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:4px}
+.tl-line{flex:1;width:1px;background:rgba(14,138,130,0.25);margin-top:4px}
+.tl-week{color:var(--teal-light);font-size:11px;font-weight:600;letter-spacing:0.5px;margin-bottom:4px}
+.tl-text{color:rgba(255,255,255,0.62);font-size:13px;line-height:1.55}
+
+/* PILOT SPECS */
+.pilot-specs{display:flex;flex-direction:column;gap:13px;margin:24px 0}
+.pilot-spec{display:flex;gap:11px;align-items:flex-start}
+.spec-icon{color:var(--teal-light);font-size:16px;margin-top:1px;flex-shrink:0}
+.spec-text{color:rgba(255,255,255,0.68);font-size:14px;line-height:1.5}
+
+/* CTA SECTION */
+.cta-sec{background:var(--navy);padding:80px 5%;text-align:center}
+.cta-title{font-family:'DM Serif Display',serif;font-size:clamp(30px,4vw,50px);color:white;margin-bottom:14px}
 .cta-title span{color:var(--teal-light)}
-.cta-sub{color:rgba(255,255,255,0.45);font-size:15px;margin-bottom:30px;max-width:440px;margin-left:auto;margin-right:auto;font-weight:300}
-.cta-form{display:flex;gap:9px;max-width:410px;margin:0 auto}
-.cta-input{flex:1;padding:12px 15px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.07);color:white;font-size:13px;font-family:'DM Sans';outline:none}
-.cta-input::placeholder{color:rgba(255,255,255,0.3)}
+.cta-sub{color:rgba(255,255,255,0.45);font-size:16px;margin-bottom:32px;max-width:460px;margin-left:auto;margin-right:auto;font-weight:300}
+.cta-form{display:flex;gap:10px;max-width:420px;margin:0 auto;justify-content:center}
+.cta-input{flex:1;padding:13px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.07);color:white;font-size:14px;font-family:'DM Sans';outline:none;transition:border-color 0.2s}
 .cta-input:focus{border-color:var(--teal)}
-.cta-note{color:rgba(255,255,255,0.25);font-size:11px;margin-top:11px}
-.mit-badge{color:rgba(255,255,255,0.35);font-size:11px;margin-top:24px}
-.footer{background:var(--dark);padding:30px 5%;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(14,138,130,0.1)}
-.footer-r{color:rgba(255,255,255,0.25);font-size:11px}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--teal);color:white;padding:10px 22px;border-radius:100px;font-size:13px;z-index:999;transition:transform 0.3s;box-shadow:0 8px 24px rgba(14,138,130,0.4);pointer-events:none}
+.cta-input::placeholder{color:rgba(255,255,255,0.28)}
+.cta-note{color:rgba(255,255,255,0.22);font-size:11px;margin-top:11px}
+.mit-badge{color:rgba(255,255,255,0.32);font-size:11px;margin-top:26px}
+
+/* PILOT CARD */
+.pilot-card{background:rgba(255,255,255,0.04);border:1px solid rgba(14,138,130,0.25);border-radius:14px;padding:28px}
+.pilot-card-title{font-family:'DM Serif Display',serif;font-size:20px;color:white;margin-bottom:22px}
+
+/* CONTACT FORM */
+.contact-form{background:white;border-radius:14px;padding:32px;border:1px solid var(--light-border)}
+.form-title{font-family:'DM Serif Display',serif;font-size:22px;color:var(--navy);margin-bottom:6px}
+.form-sub{color:var(--mid-grey);font-size:13px;margin-bottom:24px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.form-label{font-size:12px;font-weight:500;color:var(--navy)}
+.form-input{padding:11px 14px;border-radius:7px;border:1px solid var(--light-border);font-size:13px;font-family:'DM Sans';outline:none;color:var(--navy);transition:border-color 0.2s}
+.form-input:focus{border-color:var(--teal)}
+.form-textarea{padding:11px 14px;border-radius:7px;border:1px solid var(--light-border);font-size:13px;font-family:'DM Sans';outline:none;color:var(--navy);resize:vertical;min-height:90px;transition:border-color 0.2s}
+.form-textarea:focus{border-color:var(--teal)}
+
+/* PROVIDER CARDS */
+.provider-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.provider-card{background:white;border-radius:12px;padding:22px;border:1px solid var(--light-border)}
+.provider-card-num{font-family:'DM Serif Display',serif;font-size:38px;color:rgba(14,138,130,0.18);line-height:1;margin-bottom:10px}
+.provider-card-title{font-weight:600;font-size:14px;margin-bottom:7px;color:var(--navy)}
+.provider-card-text{font-size:12px;color:var(--mid-grey);line-height:1.6}
+
+/* DARK SECTION */
+.dark-section{background:var(--dark);padding:80px 5%}
+.dark-section .sec-tag{color:var(--teal-light)}
+
+/* PROBLEM CARDS */
+.prob-cards{display:flex;flex-direction:column;gap:13px}
+.prob-card{border-left:3px solid var(--teal);padding:14px 18px;background:white;border-radius:0 9px 9px 0;border:1px solid var(--light-border);border-left:3px solid var(--teal)}
+.prob-card-title{font-weight:600;font-size:14px;color:var(--navy);margin-bottom:5px}
+.prob-card-text{font-size:12px;color:var(--mid-grey);line-height:1.55}
+
+/* FOOTER */
+.footer{background:var(--dark);padding:32px 5%;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(14,138,130,0.1)}
+.footer-logo{display:flex;align-items:center;gap:10px}
+.footer-logo-img{width:30px;height:30px;border-radius:50%;background:white;padding:2px;object-fit:contain}
+.footer-logo-name{font-family:'DM Serif Display',serif;font-size:18px;color:white}
+.footer-tagline{color:rgba(255,255,255,0.22);font-size:11px;font-style:italic;margin-top:3px}
+.footer-right{color:rgba(255,255,255,0.22);font-size:11px;text-align:right}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--teal);color:white;padding:11px 24px;border-radius:100px;font-size:13px;z-index:999;transition:transform 0.3s;box-shadow:0 8px 24px rgba(14,138,130,0.4);pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0)}
+
+/* PAGE HERO variants */
+.page-hero{background:var(--dark);padding:80px 5% 70px;position:relative;overflow:hidden}
+.page-hero-inner{max-width:1160px;margin:0 auto;position:relative;z-index:2}
+.page-hero-title{font-family:'DM Serif Display',serif;font-size:clamp(36px,4vw,54px);color:white;line-height:1.12;margin-bottom:16px}
+.page-hero-sub{font-size:17px;line-height:1.75;color:rgba(255,255,255,0.55);font-weight:300;max-width:580px;margin-bottom:32px}
+
+/* COMMITMENT BOX */
+.commitment-box{background:rgba(14,138,130,0.1);border:1px solid rgba(14,138,130,0.3);border-radius:12px;padding:24px;margin-top:28px}
+.commitment-title{color:var(--teal-light);font-size:11px;font-weight:600;letter-spacing:1.5px;margin-bottom:12px}
+.commitment-text{color:rgba(255,255,255,0.75);font-size:14px;line-height:1.65}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
 const { useState } = React;
+const LOGO = "data:image/png;base64,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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//2Q==";
 
-const stakeholders = {
-  employees:{
-    label:"Employees",
-    features:[
-      {icon:"🎯",title:"Burnout early warning",text:"Detects overload in your calendar weeks before you feel it — meeting density, fragmented focus time, after-hours spikes."},
-      {icon:"💬",title:"Private nudges only",text:"Messages go only to you through Teams or Slack. Never shared with HR or your manager. Ever."},
-      {icon:"🧭",title:"Portable wellbeing profile",text:"Your wellbeing history travels with you across organizations. You own your data."}
-    ],
-    panel:{title:"Your Wellbeing Dashboard",sub:"Private · Updated daily",
-      metrics:[{l:"Wellbeing Index",v:"7.2 / 10",c:"teal"},{l:"Focus time this week",v:"↓ 38%",c:"amber"},{l:"After-hours work (7 days)",v:"4 evenings",c:"amber"},{l:"Back-to-back meetings",v:"3 tomorrow",c:"amber"}],
-      cta:"View my full report →"}
-  },
-  hr:{
-    label:"HR & Employers",
-    features:[
-      {icon:"📊",title:"Org wellbeing heatmap",text:"Aggregate, anonymized overload signals across teams — see which departments are at risk before turnover happens."},
-      {icon:"💰",title:"ROI reporting",text:"One prevented attrition event covers the cost of 200+ employee subscriptions."},
-      {icon:"🔗",title:"Seamless HRIS integration",text:"Connects to Workday, Teams, Slack, and Google Calendar via read-only API. No IT engineering time needed for the pilot."}
-    ],
-    panel:{title:"Team Overload Heatmap",sub:"Anonymized · Last 30 days",
-      metrics:[{l:"Employees at overload risk",v:"12%",c:"amber"},{l:"Avg focus time this month",v:"↓ 22%",c:"amber"},{l:"After-hours work rate",v:"34%",c:"amber"},{l:"Projected turnover risk",v:"↓ 18%",c:"green"}],
-      cta:"Request a pilot report →"}
-  },
-  providers:{
-    label:"Wellbeing Providers",
-    features:[
-      {icon:"🏪",title:"Free marketplace listing",text:"List your EAP services, coaching programmes, or wellness content for free. Reach employees at their moment of need."},
-      {icon:"📈",title:"Aggregate demand intelligence",text:"Anonymized wellbeing trends show what interventions are most needed before you build them."},
-      {icon:"🤝",title:"Non-compete commitment",text:"We will never build in-house therapy, coaching, or financial services that compete with you. Our role is AI orchestration only."}
-    ],
-    panel:{title:"Provider Dashboard",sub:"Marketplace · Live",
-      metrics:[{l:"Active employee reach",v:"2,400+",c:"teal"},{l:"Referrals this month",v:"+147",c:"green"},{l:"Avg intervention match",v:"87%",c:"teal"},{l:"Provider NPS",v:"72",c:"green"}],
-      cta:"Join the marketplace →"}
-  }
-};
-
-function App() {
-  const [tab, setTab] = useState("employees");
-  const [email, setEmail] = useState("");
-  const [done, setDone] = useState(false);
-  const [toast, setToast] = useState(false);
-  const t = stakeholders[tab];
-
-  const submit = () => {
-    if(email.includes("@")){
-      setDone(true); setToast(true);
-      setTimeout(() => setToast(false), 3200);
-    }
-  };
-
+function Nav({ page, setPage }) {
   return (
-    <div className="site">
-      <nav className="nav">
-        <div className="logo">
-          <div className="logo-mark">CS</div>
-          <span className="logo-name">CareSphere</span>
-        </div>
-        <div className="nav-links">
-          {["For Employees","For HR","For Providers","The Pilot"].map(l => (
-            <button key={l} className="nav-link">{l}</button>
-          ))}
-          <button className="nav-cta">Join the pilot →</button>
-        </div>
-      </nav>
+    <nav className="nav">
+      <div className="nav-logo" onClick={() => setPage('home')}>
+        <img src={LOGO} className="nav-logo-img" alt="CareSphere"/>
+        <span className="nav-logo-name">CareSphere</span>
+      </div>
+      <div className="nav-links">
+        {[['employees','For Employees'],['hr','For HR'],['providers','For Providers'],['pilot','The Pilot']].map(([id,label]) => (
+          <button key={id} className={"nav-link"+(page===id?" active":"")} onClick={() => setPage(id)}>{label}</button>
+        ))}
+        <button className="nav-cta" onClick={() => setPage('pilot')}>Join the pilot →</button>
+      </div>
+    </nav>
+  );
+}
 
+function Footer({ setPage }) {
+  return (
+    <footer className="footer">
+      <div>
+        <div className="footer-logo">
+          <img src={LOGO} className="footer-logo-img" alt="CareSphere"/>
+          <span className="footer-logo-name">CareSphere</span>
+        </div>
+        <div className="footer-tagline">Care that evolves with you</div>
+      </div>
+      <div className="footer-right">
+        MIT Professional Education · CDO Program · Group 3 · 2025<br/>
+        © CareSphere · Built with purpose
+      </div>
+    </footer>
+  );
+}
+
+function HomePage({ setPage }) {
+  return (
+    <div>
       <section className="hero">
-        <div className="hero-orb orb1"/><div className="hero-orb orb2"/><div className="hero-grid"/>
+        <div className="hero-orb orb1"/><div className="hero-orb orb2"/>
+        <div className="hero-grid"/>
         <div className="hero-inner">
           <div>
             <div className="hero-badge"><div className="badge-dot"/>MIT CDO Program · Pilot Launching 2025</div>
             <h1 className="hero-title">Wellbeing that<br/><span className="accent">works before</span><br/>it breaks down</h1>
-            <p className="hero-sub">CareSphere detects burnout risk in calendar patterns weeks before employees feel it — and delivers private, actionable nudges in the flow of work.</p>
+            <p className="hero-sub">CareSphere is an agentic AI platform that detects burnout risk in calendar patterns weeks before employees feel it — and delivers private, actionable nudges in the flow of work.</p>
             <div className="hero-btns">
-              <button className="btn-primary">Join the pilot →</button>
-              <button className="btn-ghost">See how it works</button>
+              <button className="btn-primary" onClick={() => setPage('pilot')}>Join the pilot →</button>
+              <button className="btn-ghost" onClick={() => setPage('employees')}>See how it works</button>
             </div>
-            <div className="trust">
-              {["Privacy-first","No management visibility","Human-in-the-loop","MIT CDO Program"].map(t => (
+            <div className="trust-row">
+              {["Privacy-first","No management visibility","Human-in-the-loop","MIT CDO Program"].map(t=>(
                 <div key={t} className="trust-item"><span className="trust-icon">✓</span>{t}</div>
               ))}
             </div>
           </div>
           <div className="demo-card">
-            <div className="card-header">
-              <span className="card-title">EMPLOYEE WELLBEING · PRIVATE</span>
-              <span className="card-badge">Live signal</span>
-            </div>
+            <div className="card-hdr"><span className="card-label">EMPLOYEE WELLBEING · PRIVATE</span><span className="live-badge">Live signal</span></div>
             <div className="score-wrap">
               <div className="score-ring"><div className="score-inner"><span className="score-num">7.0</span><span className="score-den">/10</span></div></div>
               <div className="score-lbl">Wellbeing Index · This week</div>
@@ -242,7 +299,7 @@ function App() {
               <div className="signal"><span className="sig-icon">⚠️</span><span className="sig-text"><strong className="sig-bold">Focus time dropped 40% this week</strong>14 meetings, 3 back-to-back before 9am tomorrow</span></div>
               <div className="signal"><span className="sig-icon">🌙</span><span className="sig-text"><strong className="sig-bold">After-hours: 4 of last 5 evenings</strong>2.3× above your personal baseline</span></div>
             </div>
-            <div className="nudge">
+            <div className="nudge-box">
               <div className="nudge-lbl">CARESPHERE SUGGESTS</div>
               <div className="nudge-text">Block tomorrow 2–4pm for deep work. Decline the 8:30am standup — it has notes. You've earned the space.</div>
               <div className="nudge-btns"><button className="nb nb-yes">Block it ✓</button><button className="nb nb-no">Maybe later</button></div>
@@ -253,23 +310,45 @@ function App() {
 
       <section className="stats-bar">
         <div className="stats-grid">
-          {[{n:"50–200%",l:"of annual salary to replace one employee"},{n:"77%",l:"of workers experienced burnout at their current job"},{n:"1 in 3",l:"say wellbeing tools are reactive, not proactive"},{n:"$322B",l:"lost annually to burnout-related turnover globally"}].map(s => (
+          {[{n:"50–200%",l:"of annual salary to replace one employee"},{n:"77%",l:"of workers experienced burnout at their current job"},{n:"1 in 3",l:"say wellbeing tools are reactive, not proactive"},{n:"22B",l:"lost annually to burnout-related turnover globally"}].map(s=>(
             <div key={s.n} className="stat"><div className="stat-num">{s.n}</div><div className="stat-lbl">{s.l}</div></div>
           ))}
         </div>
       </section>
 
-      <section className="section" style={{background:"white"}}>
+      <section className="section" style={{background:'white'}}>
         <div className="section-inner">
-          <div className="sec-tag">The Problem</div>
-          <h2 className="sec-title">Wellbeing programs arrive too late</h2>
-          <div className="prob-grid">
+          <div className="sec-tag">One Platform</div>
+          <h2 className="sec-title">Built for three connected communities</h2>
+          <p className="sec-sub">CareSphere connects the people who need wellbeing support, the organizations that fund it, and the providers who deliver it.</p>
+          <div className="home-cards">
+            {[
+              {icon:"👤",page:"employees",title:"For Employees",text:"Private burnout detection, actionable nudges in Teams or Slack, and a portable wellbeing profile that belongs to you — not your employer.",link:"Explore employee features"},
+              {icon:"🏢",page:"hr",title:"For HR & Employers",text:"Anonymized team overload heatmaps, ROI reporting, and seamless HRIS integration. See risk before it becomes turnover.",link:"Explore employer features"},
+              {icon:"🤝",page:"providers",title:"For Wellbeing Providers",text:"Join the CareSphere marketplace for free. Reach employees at their moment of highest need — backed by real behavioral data.",link:"Join the marketplace"},
+            ].map(c=>(
+              <div key={c.title} className="home-card" onClick={() => setPage(c.page)}>
+                <div className="home-card-icon">{c.icon}</div>
+                <h3 className="home-card-title">{c.title}</h3>
+                <p className="home-card-text">{c.text}</p>
+                <div className="home-card-link">{c.link} →</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section" style={{background:'var(--off-white)'}}>
+        <div className="section-inner">
+          <div className="sec-tag">The Pilot</div>
+          <div className="two-col" style={{alignItems:'center'}}>
             <div>
-              <p className="sec-sub" style={{maxWidth:"100%",marginBottom:20}}>Most organizations offer EAPs, wellness apps, and mental health resources. Employees rarely use them — because they are designed for crisis, not prevention. By the time someone reaches for help, the damage is already done.</p>
-              <p className="sec-sub" style={{maxWidth:"100%"}}>CareSphere flips the model. Instead of waiting for employees to self-report distress, it reads behavioral signals already present in work patterns and intervenes proactively, privately, before burnout takes hold.</p>
+              <h2 className="sec-title">6 weeks. 15–25 volunteers.<br/>Real results.</h2>
+              <p className="sec-sub" style={{marginBottom:28}}>We are running CareSphere's first real-world pilot with a partner organization. No cost, no infrastructure changes, no commitment beyond 6 weeks.</p>
+              <button className="btn-primary" onClick={() => setPage('pilot')}>Become a pilot partner →</button>
             </div>
             <div className="prob-cards">
-              {[{t:"Fragmented tools",x:"EAPs, mental health apps, and career tools exist in silos — none connected to real-time work context."},{t:"Reactive by design",x:"Help is available only after employees recognize they need it. Burnout erodes that self-awareness first."},{t:"No org intelligence",x:"HR has no aggregate view of team overload risk until turnover or performance issues make it visible."},{t:"Trust deficit",x:"Employees do not trust tools that report data back to their employer — so they do not engage."}].map(c => (
+              {[{t:"Zero cost",x:"No budget required from the sponsor organization."},{t:"Read-only calendar API",x:"No email, no messages, no screen activity. Just calendar metadata."},{t:"Your data, your report",x:"An anonymized overload analysis delivered exclusively to your team."},{t:"6 weeks only",x:"No long-term commitment. Evaluate and decide after the pilot."}].map(c=>(
                 <div key={c.t} className="prob-card"><div className="prob-card-title">{c.t}</div><div className="prob-card-text">{c.x}</div></div>
               ))}
             </div>
@@ -277,69 +356,186 @@ function App() {
         </div>
       </section>
 
-      <section className="section stake-sec">
-        <div className="section-inner">
-          <div className="sec-tag">One Platform</div>
-          <h2 className="sec-title">Built for three connected communities</h2>
-          <p className="sec-sub">CareSphere connects employees who need support, organizations that fund it, and providers who deliver it.</p>
-          <div className="tabs">
-            {Object.entries(stakeholders).map(([k,v]) => (
-              <button key={k} className={"tab"+(tab===k?" active":"")} onClick={() => setTab(k)}>{v.label}</button>
-            ))}
-          </div>
-          <div className="stake-content">
-            <div className="features">
-              {t.features.map(f => (
-                <div key={f.title} className="feat">
-                  <div className="feat-icon">{f.icon}</div>
-                  <div><div className="feat-title">{f.title}</div><div className="feat-text">{f.text}</div></div>
-                </div>
-              ))}
-            </div>
-            <div className="panel">
-              <div className="panel-title">{t.panel.title}</div>
-              <div className="panel-sub">{t.panel.sub}</div>
-              {t.panel.metrics.map(m => (
-                <div key={m.l} className="metric"><span className="metric-lbl">{m.l}</span><span className={"metric-val "+m.c}>{m.v}</span></div>
-              ))}
-              <button className="panel-btn">{t.panel.cta}</button>
-            </div>
-          </div>
+      <CTA setPage={setPage}/>
+    </div>
+  );
+}
+
+function EmployeesPage({ setPage }) {
+  return (
+    <div>
+      <div className="page-hero">
+        <div className="hero-orb orb1"/><div className="hero-orb orb2"/><div className="hero-grid"/>
+        <div className="page-hero-inner">
+          <div className="hero-badge"><div className="badge-dot"/>Built for you, not for your employer</div>
+          <h1 className="page-hero-title">Your wellbeing,<br/>proactively protected</h1>
+          <p className="page-hero-sub">CareSphere detects overload in your calendar weeks before you feel burnout — and sends private nudges only to you, through Teams or Slack. Your manager never sees a thing.</p>
+          <button className="btn-primary" onClick={() => setPage('pilot')}>Join the pilot →</button>
+        </div>
+      </div>
+
+      <section className="stats-bar">
+        <div className="stats-grid">
+          {[{n:"77%",l:"of employees say they experienced burnout"},{n:"3 weeks",l:"average lead time CareSphere detects overload before the employee does"},{n:"100%",l:"private — data never shared with management"},{n:"0",l:"cost to employees in the pilot"}].map(s=>(
+            <div key={s.n} className="stat"><div className="stat-num">{s.n}</div><div className="stat-lbl">{s.l}</div></div>
+          ))}
         </div>
       </section>
 
-      <section className="section how-sec">
+      <section className="section" style={{background:'white'}}>
         <div className="section-inner">
-          <div className="sec-tag">How It Works</div>
-          <h2 className="sec-title">From signal to action in under 24 hours</h2>
+          <div className="sec-tag">How It Works For You</div>
+          <h2 className="sec-title">From signal to support<br/>in under 24 hours</h2>
           <div className="steps">
-            {[{n:"01",i:"📅",t:"Calendar signal",x:"With your consent, CareSphere reads your work calendar only — meeting load, focus blocks, after-hours patterns. No email, no messages."},{n:"02",i:"🧠",t:"AI detection",x:"The overload engine runs daily, identifying patterns that correlate with burnout risk weeks before employees feel the effects."},{n:"03",i:"💬",t:"Private nudge",x:"A private message is sent to you through Teams or Slack. No HR. No manager. Just you and a concrete suggestion."},{n:"04",i:"📈",t:"Learning loop",x:"Your responses improve the model. Over time, CareSphere becomes more precise to your patterns, baseline, and context."}].map(s => (
+            {[{n:"01",i:"📅",t:"You opt in",x:"You sign a consent form and connect your work calendar. Read-only. No email, no messages, no screen activity."},
+              {n:"02",i:"🧠",t:"CareSphere listens",x:"The AI engine runs daily, scanning for overload patterns — meeting density, fragmented focus, after-hours spikes."},
+              {n:"03",i:"💬",t:"You get a private nudge",x:"A message arrives in your Teams or Slack. Only you see it. It suggests something concrete: block time, skip a meeting, leave early."},
+              {n:"04",i:"📈",t:"It learns your baseline",x:"Over time, CareSphere calibrates to your personal patterns. The more you use it, the more precise and useful it becomes."}].map(s=>(
               <div key={s.n}><div className="step-num">{s.n}</div><div className="step-icon">{s.i}</div><div className="step-title">{s.t}</div><div className="step-text">{s.x}</div></div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="pilot-sec">
-        <div className="pilot-inner">
-          <div>
-            <div className="sec-tag" style={{color:"var(--teal-light)"}}>The Pilot</div>
-            <h2 className="pilot-title">6 weeks.<br/>15–25 volunteers.<br/>Real results.</h2>
-            <p className="pilot-sub">We are running CareSphere's first real-world pilot with a partner organization. No cost, no infrastructure changes, no commitment beyond 6 weeks.</p>
-            <div className="pilot-specs">
-              {[["📅","6-week pilot duration"],["👥","15–25 volunteer employees (opt-in only)"],["🔒","Read-only calendar API — no email, no messages"],["📊","Anonymized overload report for your organization"],["💰","Zero cost to the sponsor organization"]].map(([i,t]) => (
-                <div key={t} className="pilot-spec"><span className="spec-icon">{i}</span><span className="spec-text">{t}</span></div>
-              ))}
+      <section className="section" style={{background:'var(--off-white)'}}>
+        <div className="section-inner">
+          <div className="sec-tag">What You Get</div>
+          <h2 className="sec-title">Your private wellbeing dashboard</h2>
+          <div className="two-col">
+            <div>
+              <p className="sec-sub" style={{marginBottom:28}}>Every week, CareSphere generates a private wellbeing summary — visible only to you. It shows your workload patterns, focus time trends, and specific suggestions for the coming week.</p>
+              <div className="feat-grid" style={{gridTemplateColumns:'1fr',gap:14}}>
+                {[{icon:"🎯",title:"Burnout early warning",text:"Detects overload in your calendar weeks before you feel it — meeting density, fragmented focus time, after-hours spikes."},
+                  {icon:"💬",title:"Private nudges only",text:"Messages go only to you through Teams or Slack. Never shared with HR or your manager. Ever."},
+                  {icon:"🧭",title:"Portable wellbeing profile",text:"Your wellbeing history travels with you across organizations. You own your data, not your employer."},
+                  {icon:"📊",title:"Weekly private report",text:"A personal wellbeing summary every week. Trends, patterns, and suggestions — just for you."}].map(f=>(
+                  <div key={f.title} className="feat-card" style={{display:'flex',gap:14,alignItems:'flex-start'}}>
+                    <div className="feat-icon" style={{flexShrink:0}}>{f.icon}</div>
+                    <div><div className="feat-title">{f.title}</div><div className="feat-text">{f.text}</div></div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <button className="btn-primary">Become a pilot partner →</button>
+            <div className="demo-card" style={{background:'var(--navy)'}}>
+              <div className="card-hdr"><span className="card-label" style={{color:'rgba(255,255,255,0.5)'}}>YOUR WELLBEING · PRIVATE</span><span className="live-badge">Updated daily</span></div>
+              <div className="score-wrap">
+                <div className="score-ring"><div className="score-inner"><span className="score-num">7.0</span><span className="score-den">/10</span></div></div>
+                <div className="score-lbl">Wellbeing Index · This week</div>
+              </div>
+              <div className="signals">
+                <div className="signal"><span className="sig-icon">⚠️</span><span className="sig-text"><strong className="sig-bold">Focus time dropped 40% this week</strong>14 meetings, 3 back-to-back before 9am tomorrow</span></div>
+                <div className="signal"><span className="sig-icon">🌙</span><span className="sig-text"><strong className="sig-bold">After-hours work: 4 of last 5 evenings</strong>2.3× above your personal baseline</span></div>
+                <div className="signal"><span className="sig-icon">📅</span><span className="sig-text"><strong className="sig-bold">Tomorrow: 6 meetings before 12pm</strong>Consider declining the 2 optional standups</span></div>
+              </div>
+              <div className="nudge-box">
+                <div className="nudge-lbl">CARESPHERE SUGGESTS</div>
+                <div className="nudge-text">Block tomorrow 2–4pm for deep work. Decline the 8:30am standup — it has notes. You've earned the space.</div>
+                <div className="nudge-btns"><button className="nb nb-yes">Block it ✓</button><button className="nb nb-no">Maybe later</button></div>
+              </div>
+            </div>
           </div>
-          <div className="pilot-card">
-            <div className="pilot-card-title">Pilot Timeline</div>
-            <div className="timeline">
-              {[["Weeks 1–2","Setup, informed consent, IT integration, baseline survey"],["Week 3","Baseline data collection — detection running, no nudges yet"],["Weeks 4–6","Active pilot: nudges live, weekly check-in surveys"],["Week 7","Debrief, analysis, anonymized report delivered to partner"]].map(([w,x],i,a) => (
-                <div key={w} className="tl-item">
-                  <div className="tl-left"><div className="tl-dot"/>{i<a.length-1&&<div className="tl-line"/>}</div>
-                  <div><div className="tl-week">{w}</div><div className="tl-text">{x}</div></div>
+        </div>
+      </section>
+
+      <section className="section" style={{background:'white'}}>
+        <div className="section-inner">
+          <div className="sec-tag">Privacy & Trust</div>
+          <h2 className="sec-title">Your data belongs to you</h2>
+          <p className="sec-sub" style={{marginBottom:0}}>Every architectural decision was made with employee trust as the primary constraint — not the employer's interests.</p>
+          <div className="priv-grid">
+            {[{i:"🔐",t:"Management never sees your data",x:"No individual data is ever accessible to HR, your manager, or your employer. Your private report belongs only to you."},
+              {i:"✍️",t:"Informed consent, your choice",x:"You sign consent before any data is collected. You can withdraw at any time, no questions asked, with immediate data deletion."},
+              {i:"👁️",t:"Calendar metadata only",x:"CareSphere reads event titles and times only. No email content, no message content, no document access, no screen activity."},
+              {i:"🗄️",t:"Encrypted storage",x:"All data is stored encrypted and accessible only to the project team. Deleted at the end of the pilot without exception."},
+              {i:"🏛️",t:"MIT ethics review",x:"The pilot is submitted for MIT research ethics review before any data collection begins."},
+              {i:"🌍",t:"GDPR & PDPL compliant",x:"Designed for EU GDPR and UAE PDPL compliance from the ground up. Regional data residency supported."}].map(c=>(
+              <div key={c.t} className="priv-card"><div className="priv-icon">{c.i}</div><div className="priv-title">{c.t}</div><div className="priv-text">{c.x}</div></div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <CTA setPage={setPage}/>
+    </div>
+  );
+}
+
+function HRPage({ setPage }) {
+  return (
+    <div>
+      <div className="page-hero">
+        <div className="hero-orb orb1"/><div className="hero-orb orb2"/><div className="hero-grid"/>
+        <div className="page-hero-inner">
+          <div className="hero-badge"><div className="badge-dot"/>Built for HR leaders and C-suite</div>
+          <h1 className="page-hero-title">See burnout risk<br/>before it becomes turnover</h1>
+          <p className="page-hero-sub">CareSphere gives you an anonymized, aggregate view of team overload risk — weeks before it shows up in performance reviews, absenteeism, or resignation letters.</p>
+          <div className="hero-btns">
+            <button className="btn-primary" onClick={() => setPage('pilot')}>Request a pilot →</button>
+            <button className="btn-ghost">Download the proposal</button>
+          </div>
+        </div>
+      </div>
+
+      <section className="stats-bar">
+        <div className="stats-grid">
+          {[{n:"50–200%",l:"of annual salary to replace one employee"},{n:"22B",l:"lost globally to burnout turnover annually"},{n:"12 weeks",l:"average time from burnout onset to resignation"},{n:"200×",l:"one prevented attrition pays for 200+ subscriptions"}].map(s=>(
+            <div key={s.n} className="stat"><div className="stat-num">{s.n}</div><div className="stat-lbl">{s.l}</div></div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section" style={{background:'white'}}>
+        <div className="section-inner">
+          <div className="sec-tag">What HR Gets</div>
+          <h2 className="sec-title">Organizational intelligence,<br/>not surveillance</h2>
+          <div className="two-col">
+            <div>
+              <p className="sec-sub" style={{marginBottom:28}}>CareSphere gives HR leaders anonymized, aggregate wellbeing signals across teams — without ever exposing individual employee data. You see the patterns. Your employees keep their privacy.</p>
+              <div style={{display:'flex',flexDirection:'column',gap:14}}>
+                {[{icon:"📊",title:"Team overload heatmap",text:"See which departments are at burnout risk weeks before it shows in performance or absenteeism."},
+                  {icon:"💰",title:"ROI reporting",text:"Track wellbeing improvement over time. One prevented attrition event covers 200+ employee subscriptions."},
+                  {icon:"🔗",title:"Seamless HRIS integration",text:"Connects to Workday, Teams, Slack, and Google Calendar via read-only API. No IT engineering time required for the pilot."},
+                  {icon:"📈",title:"Trend analytics",text:"Month-over-month wellbeing trends, focus time patterns, and overload risk scores segmented by team or department."}].map(f=>(
+                  <div key={f.title} className="feat-card" style={{display:'flex',gap:14,alignItems:'flex-start'}}>
+                    <div className="feat-icon" style={{flexShrink:0}}>{f.icon}</div>
+                    <div><div className="feat-title">{f.title}</div><div className="feat-text">{f.text}</div></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="panel">
+              <div className="panel-title">Team Overload Heatmap</div>
+              <div className="panel-sub">Anonymized · Last 30 days · Finance Dept</div>
+              {[{l:"Employees at overload risk",v:"12%",c:"amber"},{l:"Avg focus time this month",v:"↓ 22%",c:"amber"},{l:"After-hours work rate",v:"34%",c:"amber"},{l:"High-risk employees flagged",v:"8",c:"amber"},{l:"Projected turnover risk",v:"↓ 18%",c:"green"},{l:"Wellbeing Index (team avg)",v:"6.8 / 10",c:"teal-c"}].map(m=>(
+                <div key={m.l} className="metric"><span className="metric-lbl">{m.l}</span><span className={"metric-val "+m.c}>{m.v}</span></div>
+              ))}
+              <button className="panel-btn" onClick={() => setPage('pilot')}>Request full pilot report →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section" style={{background:'var(--off-white)'}}>
+        <div className="section-inner">
+          <div className="sec-tag">The Business Case</div>
+          <h2 className="sec-title">The math is straightforward</h2>
+          <div className="two-col">
+            <div>
+              <p className="sec-sub" style={{marginBottom:24}}>Employee replacement costs run 50–200% of annual salary. A single prevented attrition event in a team of 100 employees at average salary pays for over 200 CareSphere subscriptions for that entire team for a full year.</p>
+              <p className="sec-sub" style={{marginBottom:24}}>That is before accounting for productivity losses during notice periods, recruitment time, onboarding costs, and institutional knowledge transfer.</p>
+              <p className="sec-sub">CareSphere doesn't just support employee wellbeing — it protects your most important asset and your bottom line.</p>
+            </div>
+            <div style={{display:'flex',flexDirection:'column',gap:16}}>
+              {[{num:"1",label:"prevented attrition event",value:"Covers 200+ subscriptions"},
+                {num:"3 weeks",label:"earlier detection",value:"Before employees self-report"},
+                {num:"Zero",label:"cost to start",value:"6-week pilot, no budget needed"},
+                {num:"100%",label:"anonymized",value:"Individual data never shared"}].map(item=>(
+                <div key={item.num} style={{background:'white',borderRadius:10,padding:'16px 20px',border:'1px solid var(--light-border)',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                  <div>
+                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:26,color:'var(--navy)',lineHeight:1}}>{item.num}</div>
+                    <div style={{fontSize:12,color:'var(--mid-grey)',marginTop:3}}>{item.label}</div>
+                  </div>
+                  <div style={{background:'rgba(14,138,130,0.08)',color:'var(--teal)',fontSize:12,fontWeight:500,padding:'6px 14px',borderRadius:100}}>{item.value}</div>
                 </div>
               ))}
             </div>
@@ -347,42 +543,321 @@ function App() {
         </div>
       </section>
 
-      <section className="section priv-sec">
+      <section className="dark-section">
         <div className="section-inner">
-          <div className="sec-tag">Privacy & Trust</div>
-          <h2 className="sec-title">Wellbeing data deserves the highest standard</h2>
-          <p className="sec-sub">Every architectural decision was made with employee trust as the primary constraint.</p>
-          <div className="priv-grid">
-            {[{i:"🔐",t:"Data never shared",x:"No individual data is ever accessible to management, HR, or your employer. Only you see your private report."},{i:"✍️",t:"Informed consent",x:"Every participant signs consent before any data is collected. Withdrawal is possible at any time."},{i:"🗄️",t:"Encrypted & deleted",x:"Calendar data is encrypted, accessible only to the project team, and deleted after the pilot ends."},{i:"👁️",t:"Read-only access only",x:"CareSphere reads calendar metadata only. No email content, no messages, no screen activity. Ever."},{i:"🏛️",t:"MIT ethics review",x:"The pilot is submitted for MIT research ethics review before any data collection begins."},{i:"🌍",t:"GDPR & PDPL compliant",x:"Designed for EU GDPR and UAE PDPL compliance from the ground up."}].map(c => (
-              <div key={c.t} className="priv-card"><div className="priv-icon">{c.i}</div><div className="priv-title">{c.t}</div><div className="priv-text">{c.x}</div></div>
+          <div className="sec-tag">Privacy Guarantee</div>
+          <h2 className="sec-title-white">What HR never sees</h2>
+          <p style={{color:'rgba(255,255,255,0.5)',fontSize:15,fontWeight:300,lineHeight:1.75,maxWidth:560,marginBottom:36}}>This is non-negotiable. CareSphere's architecture is designed so that individual employee data is technically inaccessible to management — not just contractually prohibited, but structurally impossible.</p>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:16}}>
+            {[{i:"❌",t:"Individual employee scores",x:"HR only sees aggregate, anonymized team-level data. Individual wellbeing scores are private."},
+              {i:"❌",t:"Personal nudge content",x:"The nudges sent to employees are never logged or accessible to HR or management."},
+              {i:"❌",t:"Calendar event details",x:"HR receives pattern summaries only — never raw calendar data or event titles."}].map(c=>(
+              <div key={c.t} style={{background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:12,padding:22}}>
+                <div style={{fontSize:24,marginBottom:12}}>{c.i}</div>
+                <div style={{fontWeight:600,fontSize:14,color:'rgba(255,255,255,0.85)',marginBottom:7}}>{c.t}</div>
+                <div style={{fontSize:12,color:'rgba(255,255,255,0.5)',lineHeight:1.6}}>{c.x}</div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="cta-sec">
-        <div className="sec-tag" style={{color:"var(--teal-light)"}}>Get Involved</div>
-        <h2 className="cta-title">Ready to bring <span>CareSphere</span> to your team?</h2>
-        <p className="cta-sub">Whether you are an HR leader, a wellbeing provider, or an employee who wants early access — we would love to hear from you.</p>
-        {!done ? (
-          <div className="cta-form">
-            <input className="cta-input" placeholder="your@email.com" value={email} onChange={e=>setEmail(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submit()}/>
-            <button className="btn-primary" onClick={submit}>Register interest</button>
-          </div>
-        ) : (
-          <p style={{color:"var(--teal-light)",fontSize:15,fontWeight:500}}>✓ Thank you — we will be in touch.</p>
-        )}
-        <p className="cta-note">No spam. No commitment. Just a conversation.</p>
-        <div className="mit-badge">🎓 MIT Professional Education · Chief Digital Officer Program · Group 3 · 2025</div>
+      <CTA setPage={setPage}/>
+    </div>
+  );
+}
+
+function ProvidersPage({ setPage }) {
+  return (
+    <div>
+      <div className="page-hero">
+        <div className="hero-orb orb1"/><div className="hero-orb orb2"/><div className="hero-grid"/>
+        <div className="page-hero-inner">
+          <div className="hero-badge"><div className="badge-dot"/>Free to join · No competing products</div>
+          <h1 className="page-hero-title">Reach employees<br/>at their moment of need</h1>
+          <p className="page-hero-sub">Join the CareSphere marketplace for free. Your services are surfaced to employees at the exact moment CareSphere detects they need them — backed by behavioral data, not guesswork.</p>
+          <button className="btn-primary" onClick={() => setPage('pilot')}>Join the marketplace →</button>
+        </div>
+      </div>
+
+      <section className="stats-bar">
+        <div className="stats-grid">
+          {[{n:"Free",l:"to list your services on CareSphere marketplace"},{n:"87%",l:"average intervention match score in pilot"},{n:"+147",l:"provider referrals generated in first month"},{n:"0",l:"competing products built by CareSphere"}].map(s=>(
+            <div key={s.n} className="stat"><div className="stat-num">{s.n}</div><div className="stat-lbl">{s.l}</div></div>
+          ))}
+        </div>
       </section>
 
-      <footer className="footer">
-        <div className="logo"><div className="logo-mark" style={{width:28,height:28,fontSize:12}}>CS</div><span className="logo-name">CareSphere</span></div>
-        <div className="footer-r">© 2025 CareSphere · MIT CDO Program · Group 3 · Built with purpose</div>
-      </footer>
+      <section className="section" style={{background:'white'}}>
+        <div className="section-inner">
+          <div className="sec-tag">Why Partner With CareSphere</div>
+          <h2 className="sec-title">A platform built around<br/>your success</h2>
+          <p className="sec-sub" style={{marginBottom:40}}>We are not building competing services. Our role is AI orchestration and signal intelligence — yours is service delivery. That is the commitment we make to every provider partner.</p>
+          <div className="provider-cards">
+            {[{num:"01",title:"Free marketplace listing",text:"List your EAP services, coaching programmes, financial wellness tools, or wellbeing content. No listing fee, no revenue share in the pilot phase."},
+              {num:"02",title:"Behavioral demand intelligence",text:"Access anonymized population wellbeing trends — understand what interventions are most needed, in which organizations, before you build them."},
+              {num:"03",title:"Context-matched referrals",text:"CareSphere surfaces your services to employees at the exact moment they are most needed — not through a generic browse catalog, but through AI-matched recommendations."},
+              {num:"04",title:"Outcome data",text:"Receive anonymized data on how your interventions are performing — completion rates, repeat engagement, and wellbeing score changes after using your service."},
+              {num:"05",title:"Co-marketing support",text:"Preferred partners receive co-marketing exposure to employer HR teams considering CareSphere deployment — expanding your enterprise sales pipeline."},
+              {num:"06",title:"API integration support",text:"Our team provides full technical support to integrate your services through the CareSphere API — whether you are building a simple listing or a deep integration."}].map(c=>(
+              <div key={c.num} className="provider-card">
+                <div className="provider-card-num">{c.num}</div>
+                <div className="provider-card-title">{c.title}</div>
+                <div className="provider-card-text">{c.text}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <div className={"toast"+(toast?" show":"")} >✓ You are on the list — we will be in touch!</div>
+      <section className="dark-section">
+        <div className="section-inner">
+          <div className="sec-tag">Our Commitment</div>
+          <h2 className="sec-title-white">We will never compete with you</h2>
+          <p style={{color:'rgba(255,255,255,0.5)',fontSize:15,fontWeight:300,lineHeight:1.75,maxWidth:560,marginBottom:32}}>CareSphere's charter is AI orchestration and signal intelligence — not service delivery. We commit to the following, contractually, with every provider partner:</p>
+          <div style={{display:'flex',flexDirection:'column',gap:14,maxWidth:700}}>
+            {["CareSphere will never build in-house therapy, counselling, or mental health coaching services.",
+              "CareSphere will never build in-house financial planning, coaching, or advisory services.",
+              "CareSphere will never build in-house career coaching, mentoring, or development content.",
+              "API roadmaps are published 12–18 months in advance. No surprise product moves.",
+              "Partners retain full ownership of their client relationships and session data.",
+              "Provider Advisory Councils give partners a formal voice in platform direction."].map((c,i)=>(
+              <div key={i} style={{display:'flex',gap:14,alignItems:'flex-start',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(14,138,130,0.2)',borderRadius:9,padding:'12px 16px'}}>
+                <span style={{color:'var(--teal-light)',flexShrink:0,marginTop:2}}>✓</span>
+                <span style={{color:'rgba(255,255,255,0.72)',fontSize:14,lineHeight:1.5}}>{c}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section" style={{background:'var(--off-white)'}}>
+        <div className="section-inner">
+          <div className="sec-tag">Who We Are Looking For</div>
+          <h2 className="sec-title">Marketplace partners<br/>across five dimensions</h2>
+          <div className="feat-grid">
+            {[{icon:"🧠",title:"Mental health",text:"EAP providers, therapists, CBT platforms, stress management tools, and mindfulness apps."},
+              {icon:"💪",title:"Physical wellbeing",text:"Fitness coaches, nutrition advisors, sleep optimization platforms, and wellness content creators."},
+              {icon:"💰",title:"Financial wellness",text:"Financial advisors, debt management coaches, benefits optimization services, and savings platforms."},
+              {icon:"🎯",title:"Career development",text:"Career coaches, mentoring platforms, skills training providers, and professional development content."},
+              {icon:"🤝",title:"Social & community",text:"Team connection platforms, peer support networks, DE&I wellbeing programmes, and community builders."},
+              {icon:"📚",title:"Content & education",text:"Wellbeing content libraries, micro-learning platforms, podcast networks, and evidence-based resources."}].map(f=>(
+              <div key={f.title} className="feat-card">
+                <div className="feat-icon">{f.icon}</div>
+                <div className="feat-title">{f.title}</div>
+                <div className="feat-text">{f.text}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <CTA setPage={setPage} ctaText="Join the CareSphere marketplace" ctaSub="Register your organization's interest and we will reach out within 48 hours."/>
     </div>
+  );
+}
+
+function PilotPage() {
+  const [form, setForm] = useState({name:'',org:'',role:'',email:'',phone:'',message:''});
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = () => {
+    if(form.name && form.email.includes('@') && form.org) {
+      setSent(true);
+    }
+  };
+
+  return (
+    <div>
+      <div className="page-hero">
+        <div className="hero-orb orb1"/><div className="hero-orb orb2"/><div className="hero-grid"/>
+        <div className="page-hero-inner">
+          <div className="hero-badge"><div className="badge-dot"/>Applications open · 2025</div>
+          <h1 className="page-hero-title">The CareSphere Pilot</h1>
+          <p className="page-hero-sub">A 6-week test of whether AI-driven detection of workload overload — using calendar signals — can help employees recognize and respond to burnout risk earlier, before it affects performance, wellbeing, or retention.</p>
+        </div>
+      </div>
+
+      <section className="section" style={{background:'white'}}>
+        <div className="section-inner">
+          <div className="two-col">
+            <div>
+              <div className="sec-tag">What We Are Testing</div>
+              <h2 className="sec-title">Three specific hypotheses</h2>
+              <p className="sec-sub" style={{marginBottom:28}}>The pilot is designed to answer three concrete questions — not broad assumptions, but specific testable propositions.</p>
+              <div style={{display:'flex',flexDirection:'column',gap:16}}>
+                {[{num:"01",title:"Detection accuracy",text:"Do calendar-based overload signals correlate with employees' own self-reported stress levels? Can CareSphere predict burnout risk before employees themselves recognize it?"},
+                  {num:"02",title:"Engagement",text:"Will employees open, read, and act on private nudges delivered through Teams or Slack? What is the engagement rate with AI-generated wellbeing suggestions?"},
+                  {num:"03",title:"Behavior change",text:"Does receiving nudges lead to measurable behavior change — focus blocks created, meetings declined, after-hours work reduced — in the following week?"}].map(h=>(
+                  <div key={h.num} style={{background:'var(--off-white)',borderRadius:10,padding:'18px 20px',borderLeft:'3px solid var(--teal)'}}>
+                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:13,color:'var(--teal)',marginBottom:5}}>Hypothesis {h.num}</div>
+                    <div style={{fontWeight:600,fontSize:14,color:'var(--navy)',marginBottom:6}}>{h.title}</div>
+                    <div style={{fontSize:13,color:'var(--mid-grey)',lineHeight:1.6}}>{h.text}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="sec-tag">How It Works</div>
+              <h2 className="sec-title">Simple, low-friction,<br/>fully voluntary</h2>
+              <div style={{display:'flex',flexDirection:'column',gap:13,marginTop:24}}>
+                {[{icon:"👥",text:"15–25 volunteer employees opt in — never mandatory"},
+                  {icon:"📅",text:"Read-only calendar API connection — no email, no messages"},
+                  {icon:"🤖",text:"AI detects overload patterns daily and sends private nudges"},
+                  {icon:"📝",text:"3-question weekly survey takes under 2 minutes"},
+                  {icon:"📊",text:"Week 7: anonymized report delivered to your organization"},
+                  {icon:"💰",text:"Zero cost — no budget, no IT engineering time required"},
+                  {icon:"🕐",text:"Two 30-minute meetings: kickoff briefing and end-of-pilot debrief"}].map(({icon,text})=>(
+                  <div key={text} style={{display:'flex',gap:12,alignItems:'flex-start'}}>
+                    <span style={{fontSize:18,flexShrink:0}}>{icon}</span>
+                    <span style={{fontSize:13,color:'var(--mid-grey)',lineHeight:1.55,paddingTop:2}}>{text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="dark-section">
+        <div className="section-inner">
+          <div className="two-col">
+            <div>
+              <div className="sec-tag" style={{color:'var(--teal-light)'}}>Timeline</div>
+              <h2 className="sec-title-white">7 weeks start to finish</h2>
+              <p style={{color:'rgba(255,255,255,0.45)',fontSize:14,lineHeight:1.75,marginBottom:28}}>The pilot is designed to be as lightweight as possible for the sponsor organization. We handle all the technical setup and analysis.</p>
+              <div className="pilot-specs">
+                {[["📅","6-week active pilot duration"],["👥","15–25 volunteer employees (opt-in only)"],["🔒","Read-only calendar API — no email, no messages"],["📊","Full anonymized overload analysis report"],["💰","Zero cost to the sponsor organization"],["🏛️","MIT research ethics review before launch"]].map(([i,t])=>(
+                  <div key={t} className="pilot-spec"><span className="spec-icon">{i}</span><span className="spec-text">{t}</span></div>
+                ))}
+              </div>
+            </div>
+            <div className="pilot-card">
+              <div className="pilot-card-title">Pilot Timeline</div>
+              <div className="timeline">
+                {[["Weeks 1–2","Setup, informed consent, IT integration, baseline survey. Participants are onboarded and the calendar API connection is tested."],
+                  ["Week 3","Baseline data collection begins. Detection engine runs daily but no nudges are sent yet — establishing each participant's personal baseline."],
+                  ["Weeks 4–6","Active pilot. Nudges are live. Weekly 3-question check-in surveys. Detection engine learns and calibrates throughout."],
+                  ["Week 7","Debrief. Full data analysis. Anonymized overload report delivered to the sponsor organization. Individual private summaries sent to participants."]].map(([w,x],i,a)=>(
+                  <div key={w} className="tl-item">
+                    <div className="tl-left"><div className="tl-dot"/>{i<a.length-1&&<div className="tl-line"/>}</div>
+                    <div><div className="tl-week">{w}</div><div className="tl-text">{x}</div></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section" style={{background:'var(--off-white)'}}>
+        <div className="section-inner">
+          <div className="two-col">
+            <div>
+              <div className="sec-tag">Privacy & Ethics</div>
+              <h2 className="sec-title">Non-negotiable commitments</h2>
+              <p className="sec-sub" style={{marginBottom:28}}>Every participant signs informed consent. Calendar data is processed only for the purposes described, stored encrypted, accessible only to the project team, and deleted at the end of the pilot.</p>
+              <div style={{display:'flex',flexDirection:'column',gap:12}}>
+                {["No individual data is ever shared with the sponsor organization's leadership, HR, or managers.",
+                  "Participants can withdraw at any time, with immediate data deletion, no questions asked.",
+                  "The pilot is submitted for MIT research ethics review before any data collection begins.",
+                  "Calendar data is stored encrypted and deleted at the end of the pilot without exception.",
+                  "Aggregate reports use differential privacy techniques to prevent reverse-engineering of individual data."].map((c,i)=>(
+                  <div key={i} style={{display:'flex',gap:12,alignItems:'flex-start',padding:'10px 0',borderBottom:'1px solid var(--light-border)'}}>
+                    <span style={{color:'var(--teal)',fontWeight:600,flexShrink:0}}>✓</span>
+                    <span style={{fontSize:13,color:'var(--mid-grey)',lineHeight:1.55}}>{c}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="contact-form">
+              {!sent ? (
+                <>
+                  <h3 className="form-title">Register your interest</h3>
+                  <p className="form-sub">We will reach out within 48 hours to schedule a 30-minute conversation.</p>
+                  <div className="form-row">
+                    <div className="form-group" style={{marginBottom:0}}>
+                      <label className="form-label">Full name *</label>
+                      <input className="form-input" placeholder="Your name" value={form.name} onChange={e=>setForm({...form,name:e.target.value})}/>
+                    </div>
+                    <div className="form-group" style={{marginBottom:0}}>
+                      <label className="form-label">Organization *</label>
+                      <input className="form-input" placeholder="Company name" value={form.org} onChange={e=>setForm({...form,org:e.target.value})}/>
+                    </div>
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group" style={{marginBottom:0}}>
+                      <label className="form-label">Your role</label>
+                      <input className="form-input" placeholder="e.g. Chief HR Officer" value={form.role} onChange={e=>setForm({...form,role:e.target.value})}/>
+                    </div>
+                    <div className="form-group" style={{marginBottom:0}}>
+                      <label className="form-label">Work email *</label>
+                      <input className="form-input" placeholder="you@company.com" value={form.email} onChange={e=>setForm({...form,email:e.target.value})}/>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Anything you'd like us to know</label>
+                    <textarea className="form-textarea" placeholder="Team size, location, specific concerns..." value={form.message} onChange={e=>setForm({...form,message:e.target.value})}/>
+                  </div>
+                  <button className="btn-primary" style={{width:'100%',justifyContent:'center'}} onClick={handleSubmit}>Send →</button>
+                  <p style={{fontSize:11,color:'var(--mid-grey)',marginTop:10,textAlign:'center'}}>No commitment required. Just a conversation.</p>
+                </>
+              ) : (
+                <div style={{textAlign:'center',padding:'40px 20px'}}>
+                  <div style={{fontSize:40,marginBottom:16}}>✓</div>
+                  <h3 style={{fontFamily:"'DM Serif Display',serif",fontSize:22,color:'var(--navy)',marginBottom:10}}>Thank you, {form.name.split(' ')[0]}</h3>
+                  <p style={{color:'var(--mid-grey)',fontSize:14,lineHeight:1.65}}>We will be in touch within 48 hours to schedule a conversation. Looking forward to it.</p>
+                  <p style={{color:'var(--teal)',fontSize:13,marginTop:16,fontWeight:500}}>— Abdulla Tamim & Paul Tamer, CareSphere Group 3</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function CTA({ setPage, ctaText="Ready to bring CareSphere to your team?", ctaSub="Whether you are an HR leader, a wellbeing provider, or an employee who wants early access — we would love to hear from you." }) {
+  const [email, setEmail] = useState('');
+  const [done, setDone] = useState(false);
+  const submit = () => { if(email.includes('@')){ setDone(true); } };
+  return (
+    <section className="cta-sec">
+      <div className="sec-tag" style={{color:'var(--teal-light)'}}>Get Involved</div>
+      <h2 className="cta-title">{ctaText}</h2>
+      <p className="cta-sub">{ctaSub}</p>
+      {!done ? (
+        <div className="cta-form">
+          <input className="cta-input" placeholder="your@email.com" value={email} onChange={e=>setEmail(e.target.value)} onKeyDown={e=>e.key==='Enter'&&submit()}/>
+          <button className="btn-primary" onClick={submit}>Register interest</button>
+        </div>
+      ) : (
+        <p style={{color:'var(--teal-light)',fontSize:15,fontWeight:500}}>✓ Thank you — we will be in touch.</p>
+      )}
+      <p className="cta-note">No spam. No commitment. Just a conversation.</p>
+      <div className="mit-badge">🎓 MIT Professional Education · Chief Digital Officer Program · Group 3 · 2025</div>
+    </section>
+  );
+}
+
+function App() {
+  const [page, setPage] = useState('home');
+
+  const handleSetPage = (id) => {
+    setPage(id);
+    window.scrollTo({top:0, behavior:'smooth'});
+  };
+
+  const pages = { home:<HomePage setPage={handleSetPage}/>, employees:<EmployeesPage setPage={handleSetPage}/>, hr:<HRPage setPage={handleSetPage}/>, providers:<ProvidersPage setPage={handleSetPage}/>, pilot:<PilotPage/> };
+
+  return (
+    <>
+      <Nav page={page} setPage={handleSetPage}/>
+      {pages[page]}
+      <Footer setPage={handleSetPage}/>
+    </>
   );
 }
 
